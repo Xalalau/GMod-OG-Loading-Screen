@@ -1,14 +1,16 @@
 <!--
-    06/10/2016 - v.1.1
+    v.1.2 12/04/2021
+    - Remove deprecated html
 
-    v.1.1 by Xalalau:
+    v.1.1 06/10/2016:
     - Better file counting (still not 100% accurate);
-    - Added "server name";
-    - Added support for icons with WxH greater than 16x16;
-    - ChangeText(): finished + added support to control how often random messages appear;
-    - UpdateText(): added support to control the number of messages to display + better gradient effect;
-    - FileListing(): reworked the code (= icons in "box" or "free" mode) + added audio support.
+    - Add "server name";
+    - Add support for icons with WxH greater than 16x16;
+    - ChangeText(): finished + add support to control how often random messages appear;
+    - UpdateText(): add support to control the number of messages to display + better gradient effect;
+    - FileListing(): rework the code (= icons in "box" or "free" mode) + add audio support.
 
+    /\ by Xalalau
     
     v.1.0 by Robotboy655:
     - https://facepunch.com/showthread.php?t=1275062 (https://dl.dropboxusercontent.com/u/10382947/load/gmod_loading.htm)
@@ -32,12 +34,12 @@
             </div>
         </div>
 
-        <center>
+        <div style="text-align: center;">
             <div style='padding-top: 30px; top: 0; right: 0; bottom: 0; left: 0; width: 50%; height: 50%; margin: auto; overflow: show;'>
                 <img src='loading.png' id='teste'>
                 <div id='loadingtext' style='margin-top: 10px; color: #666; font-family: Arial; font-size: 12px; font-weight: bold;'>Loading Text..</div>
             </div>
-        </center>
+        </div>
 
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
