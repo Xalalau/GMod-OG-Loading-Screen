@@ -82,7 +82,6 @@
             var link = "icons/";
 
             var ext = [];
-            ext['dua'] = "page.png";
             
             ext['png'] = "picture.png";
             ext['vtf'] = "picture.png";
