@@ -1,21 +1,3 @@
-<!--
-    v.1.2 12/04/2021
-    - Remove deprecated html
-
-    v.1.1 06/10/2016:
-    - Better file counting (still not 100% accurate);
-    - Add "server name";
-    - Add support for icons with WxH greater than 16x16;
-    - ChangeText(): finished + add support to control how often random messages appear;
-    - UpdateText(): add support to control the number of messages to display + better gradient effect;
-    - FileListing(): rework the code (= icons in "box" or "free" mode) + add audio support.
-
-    /\ by Xalalau
-    
-    v.1.0 by Robotboy655:
-    - https://facepunch.com/showthread.php?t=1275062 (https://dl.dropboxusercontent.com/u/10382947/load/gmod_loading.htm)
--->
-
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -37,7 +19,7 @@
         <div style="text-align: center;">
             <div style='padding-top: 30px; top: 0; right: 0; bottom: 0; left: 0; width: 50%; height: 50%; margin: auto; overflow: show;'>
                 <img src='loading.png' id='teste'>
-                <div id='loadingtext' style='margin-top: 10px; color: #666; font-family: Arial; font-size: 12px; font-weight: bold;'>Loading Text..</div>
+                <div id='loadingtext' style='margin-top: 10px; color: #666; font-family: Arial; font-size: 12px; font-weight: bold;'>Loading Text...</div>
             </div>
         </div>
 
@@ -66,34 +48,34 @@
 
             var keywords = 
             [
-                "Unwelding Boxes.", 
-                "Charging Toolgun.", 
-                "Breaking Addons.", 
-                "Stuffing Ragdolls.", 
-                "Unreticulating Splines.", 
-                "Refuelling Thrusters.", 
-                "Unknotting ropes.",
-                "Painting Barrels.",
-                "Feeding Birds.",
-                "Bathing Father Grigori.",
-                "Decoding Lua's syntax.",
-                "Re-killing Alyx.",
-                "Calibrating Manhacks.",
-                "Cleaning Leafblower.",
-                "Reconfiguring Gravity Matrix.",
-                "Growing Watermelons.",
-                "Mowing Grass.",
-                "Plastering Walls.",
-                "Inflating Balloons.",
-                "Taming Physics.",
-                "Calling Sleep( 1000 ); ",
-                "Unfreezing The Freeman.",
-                "Patching Broken Update.",
-                "Styling Mossman's Hair.",
-                "Reducing lifespan of Alyx.",
-                "Polishing Kliener's Head.",
-                "Delaying Episode 3.",
-                "Changing Physgun Batteries.",
+                "Unwelding Boxes", 
+                "Charging Toolgun", 
+                "Breaking Addons", 
+                "Stuffing Ragdolls", 
+                "Loading JBMod", 
+                "Refuelling Thrusters", 
+                "Unknotting ropes",
+                "Painting Barrels",
+                "Feeding Birds",
+                "Bathing Father Grigori",
+                "Decoding Lua's syntax",
+                "Re-killing Alyx",
+                "Calibrating Manhacks",
+                "Cleaning Leafblower",
+                "Reconfiguring Gravity Matrix",
+                "Growing Watermelons",
+                "Mowing Grass",
+                "Plastering Walls",
+                "Inflating Balloons",
+                "Awaiting City17's orders",
+                "Calling Sleep( 1000 );",
+                "Unfreezing The Freeman",
+                "Patching Broken Update",
+                "Styling Mossman's Hair",
+                "Reducing lifespan of G-Man",
+                "Polishing Kleiner's Head",
+                "Delaying Half-Life 3",
+                "Changing Physgun Batteries",
                 "Breaking Source Engine"
             ]
             
@@ -102,28 +84,33 @@
             var ext = [];
             ext['dua'] = "page.png";
             
+            ext['png'] = "picture.png";
             ext['vtf'] = "picture.png";
             ext['vmt'] = "page_white_picture.png";
             
             ext['wav'] = "sound.png";
             ext['mp3'] = "sound.png";
+            ext['ogg'] = "sound.png";
             
             ext['txt'] = "page_white_text.png";
             ext['htm'] = "page_white_world.png";
-            ext['tml'] = "page_white_world.png";
+            ext['tml'] = "page_white_world.png"; // html
             
             ext['bsp'] = "world.png";
             ext['ain'] = "world_add.png";
             
             ext['ttf'] = "font.png";
-            
+
+            ext['mdl'] = "brick.png";            
             ext['vvd'] = "brick_add.png";
             ext['vtx'] = "brick_add.png";
-            ext['mdl'] = "brick.png";
             ext['phy'] = "brick_add.png";
-            
+
             ext['.db'] = "database.png";
-            
+
+            ext['wlo'] = "package.png"; // Fake extension for Workshop Loading
+            ext['wdo'] = "package_go.png"; // Fake extension for Workshop Downloading
+
             ext['generic'] = "box.png";
 
             var audio = [];
@@ -137,9 +124,8 @@
 
             var msg = [];
             for (i=1; i<=MESSAGES; i++)
-            {
                 msg[i] = "";
-            }
+
             var time = 0;
 
             var iconArray = "";
@@ -147,7 +133,7 @@
 
             var FilesNeeded = 0;
             var FilesTotal = 0;
-            var FilesLeft = 0;
+            var DownloadingWorkshop = true;
 
             if (ICONS_BOX)
             {
@@ -174,20 +160,17 @@
                 var i;
                 
                 for (i=MESSAGES; i>=2; i--)
-                {
                     msg[i] = msg[i-1];
-                }
+
                 msg[1] = text;
 
                 for (i=1; i<=MESSAGES; i++)
-                {
                     str = str + '<span style="color: ' + 'hsl(0, 0%,' + 100*(1-(1/MESSAGES)*(MESSAGES-i)) + '%)' + ';">' + msg[i] + '</span><br/>';
-                }
                 
                 document.getElementById("loadingtext").innerHTML = str;
             }
 
-            function ChangeText ()
+            function ChangeText()
             {
                 setTimeout(function ()
                 {
@@ -207,13 +190,9 @@
                 var icon = "icon" + iconIncrement;
                 
                 if (Right(filename, 3) in ext)
-                {
                     iconArray = '<img id="' + icon + '" style="float: left; width: ' + ICONS_WIDTH + 'px; height: ' + ICONS_HEIGHT + 'px; padding: 1px 2px 0 0;" src="' + link + ext[Right(filename, 3)] + '"/>' + iconArray;
-                }
                 else
-                {
                     iconArray = '<img id="' + icon + '" style="float: left; width: ' + ICONS_WIDTH + 'px; height: ' + ICONS_HEIGHT + 'px; padding: 1px 2px 0 0;" src="' + link + ext["generic"] + '"/>' + iconArray;
-                }
 
                 document.getElementById("icons").innerHTML = iconArray;
 
@@ -227,10 +206,10 @@
                 if (AUDIO)
                 {
                     audio[audioIncrement].play();
+
                     if (audioIncrement == 6)
-                    {
                         audioIncrement = 0;
-                    }
+
                     audioIncrement++;
                 }
             }
@@ -243,7 +222,6 @@
             function SetFilesNeeded(Needed)
             {
                 FilesNeeded = Needed;
-                FilesLeft = Needed;
                 RefreshFileBox();
             }
 
@@ -255,51 +233,53 @@
 
             function DownloadingFile(filename)
             {
-                var str = Right(filename, 4);
+                FilesNeeded--;
 
-                FilesLeft--;
+                if (FilesNeeded == 0)
+                    FilesNeeded = "( ͡° ͜ʖ ͡°) 0";
+
                 RefreshFileBox();
 
                 UpdateText("Downloading " + filename);
+
                 time = 0;
 
-                if ((str.substring(0, 1) == ".") || (str.substring(1, 2) == "."))
+                if (DownloadingWorkshop)
+                    FileListing(".wdo");
+                else
                     FileListing(filename);
             }
 
             function SetStatusChanged(status)
             {
-                if((status.search("Downloading") != -1) || (status.search("Loading") != -1))
+                if (status == "Mounting Addons")
+                    DownloadingWorkshop = false;
+ 
+                 if (status == "Received all Lua files we needed!")
+                    RefreshFileBox(keywords[Math.floor(Math.random() * keywords.length)])
+
+                if (DownloadingWorkshop)
                 {
-                    FilesLeft--;
+                    FilesNeeded--;
+
+                    if (FilesNeeded == 0)
+                        FilesNeeded = "( ͡° ͜ʖ ͡°) 0";
+
                     RefreshFileBox();
+                    
+                    FileListing(".wlo");                    
+
+                    status = status.replace(/\d.*?\-/g, ''); // Remove the counting and total size
                 }
 
                 UpdateText(status);
                 time = 0;
             }
 
-            function RefreshFileBox()
+            function RefreshFileBox(text)
             {
-                if (FilesLeft < 0)
-                {
-                    if (! isNaN(FilesNeeded))
-                    {
-                        FilesNeeded = "( ͡° ͜ʖ ͡°)";
-                    }
-                }
-                
-                document.getElementById("files").innerHTML = FilesNeeded + " (" + FilesLeft + ")" + " files needed from the server";
-
-                if ((FilesLeft > 0) || (FilesLeft < 0))
-                {
-                    document.getElementById("files").style.visibility = 'visible';
-                }
-                else
-                {
-                    document.getElementById("files").style.visibility = 'hidden';
-                }
-
+                if (FilesNeeded != 0)
+                    document.getElementById("files").innerHTML = text || FilesNeeded + " files needed"; 
             }
 
             RefreshFileBox();
