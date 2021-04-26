@@ -2,7 +2,7 @@
 
 A loading screen for servers.
 
-![alt text](https://i.imgur.com/aUupFCq.jpg)
+![alt text](https://i.imgur.com/KmoWtIK.png)
 
     v.1.2 12/04/2021
     - Remove deprecated html
