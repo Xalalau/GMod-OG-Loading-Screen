@@ -100,6 +100,7 @@
             ext['ain'] = "world_add.png";
             
             ext['ttf'] = "font.png";
+            ext['otf'] = "font.png";
 
             ext['mdl'] = "brick.png";            
             ext['vvd'] = "brick_add.png";
