@@ -2,7 +2,7 @@
 
 Another loading screen for GMod servers.
 
-Just put it on your host, configure anything you want on top of index.php and connect the screen to the server with the command sv_loadingurl.
+Just put it on your host, configure anything you want on top of index.php and connect the link to the server with the command sv_loadingurl.
 
 ![alt text](https://i.imgur.com/qbVJrFQ.png)
 
