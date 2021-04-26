@@ -1,21 +1,21 @@
-# GMod 10 Loading Screen
+# GMod OG Loading Screen
 
-A loading screen for servers.
+Another loading screen for GMod servers.
 
-![alt text](https://i.imgur.com/KmoWtIK.png)
+Just put it on your host, configure anything you want on top of index.php and connect e screen to the server with the command sv_loadingurl.
 
-    v.1.2 12/04/2021
-    - Remove deprecated html
+![alt text](https://i.imgur.com/qbVJrFQ.png)
 
-    v.1.1 06/10/2016:
-    - Better file counting (still not 100% accurate);
+    **Xalalau**:
     - Add "server name";
-    - Add support for icons with WxH greater than 16x16;
+    - New file counting + status;
+    - Add workshop support;
+    - Add support for icons with Width x Height greater than 16x16;
     - ChangeText(): finished + add support to control how often random messages appear;
     - UpdateText(): add support to control the number of messages to display + better gradient effect;
-    - FileListing(): rework the code (= icons in "box" or "free" mode) + add audio support.
-
-    /\ by Xalalau
+    - FileListing(): add "box" and "free" modes, more icons and audio support;
+    - Improve the random messages.
     
-    v.1.0 by Robotboy655:
-    - https://facepunch.com/showthread.php?t=1275062 (https://dl.dropboxusercontent.com/u/10382947/load/gmod_loading.htm)
+    **Robotboy655**:
+    - Original code https://facepunch.com/showthread.php?t=1275062 (https://dl.dropboxusercontent.com/u/10382947/load/gmod_loading.htm)
+    The goal was to reproduce this old loading screen: https://steamcommunity.com/sharedfiles/filedetails/?id=17641278
