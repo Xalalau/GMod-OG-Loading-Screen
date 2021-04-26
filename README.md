@@ -19,5 +19,5 @@ Just put it on your host, configure anything you want on top of index.php and co
     
     Robotboy655:
 
-    - Original code https://facepunch.com/showthread.php?t=1275062 (https://dl.dropboxusercontent.com/u/10382947/load/gmod_loading.htm)
+    - Original code (https://web.archive.org/web/20160716010825/https://facepunch.com/showthread.php?t=1275062)
     The goal was to reproduce this old loading screen: https://steamcommunity.com/sharedfiles/filedetails/?id=17641278
