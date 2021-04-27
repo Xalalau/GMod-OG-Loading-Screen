@@ -124,6 +124,7 @@
             ext['dbg'] = "cancel.png"; // Debug
 
             var audio = [];
+            audio[0] = new Audio('push.wav');
             audio[1] = new Audio('push.wav');
             audio[2] = new Audio('push.wav');
             audio[3] = new Audio('push.wav');
@@ -176,10 +177,13 @@
                         icon = iconFolder + ext[extension];
                     else
                         icon = iconFolder + ext["generic"];
-                    
-                    iconArray = '<img id="' + iconID + '" style="float: left; width: 0px; height: 0px; padding: 1px 2px 0 0;" src="' + icon + '"/>' + iconArray;
+
+                    iconArray = '<img id="' + iconID + '" style="float: left; width: ' + ICONS_WIDTH + 'px; height: ' + ICONS_HEIGHT + 'px; padding: 1px 2px 0 0;" src="' + icon + '"/>' + iconArray;
 
                     document.getElementById("icons").innerHTML = iconArray;
+
+                    document.getElementById(iconID).style.height = '0px';
+                    document.getElementById(iconID).style.width = '0px';
 
                     $("#" + iconID).animate({height: ICONS_HEIGHT + "px", width: ICONS_WIDTH + "px"});
                     
@@ -192,35 +196,6 @@
 
                         if (audioIncrement == 7)
                             audioIncrement = 0;
-                    }
-                }
-            }
-
-            if (ICONS_BOX) {
-                function FileListing(filename) {
-                    var icon = "icon" + iconIncrement;
-                    
-                    if (GetExtension(filename, 3) in ext)
-                        iconArray = '<img id="' + icon + '" style="float: left; width: ' + ICONS_WIDTH + 'px; height: ' + ICONS_HEIGHT + 'px; padding: 1px 2px 0 0;" src="' + iconFolder + ext[GetExtension(filename, 3)] + '"/>' + iconArray;
-                    else
-                        iconArray = '<img id="' + icon + '" style="float: left; width: ' + ICONS_WIDTH + 'px; height: ' + ICONS_HEIGHT + 'px; padding: 1px 2px 0 0;" src="' + iconFolder + ext["generic"] + '"/>' + iconArray;
-
-                    document.getElementById("icons").innerHTML = iconArray;
-
-                    document.getElementById(icon).style.height = '0px';
-                    document.getElementById(icon).style.width = '0px';
-                    
-                    $("#" + icon).animate({height: ICONS_HEIGHT + "px", width: ICONS_WIDTH + "px"});
-                    
-                    iconIncrement++;
-                    
-                    if (AUDIO) {
-                        audio[audioIncrement].play();
-
-                        if (audioIncrement == 6)
-                            audioIncrement = 0;
-
-                        audioIncrement++;
                     }
                 }
             }
@@ -257,9 +232,8 @@
                     iconElement.style.height = "16px";
                     iconElement.style.position = "absolute";
                     iconElement.style.marginLeft = "-100px";
+                    iconElement.style.zIndex = "1";
                     iconElement.src = icon;
-                    iconElement.src = icon;
-                    iconElement.zIndex = "1";
                     document.getElementById("floating_icons").appendChild(iconElement);
 
                     var distance = Math.random() * 300;
@@ -287,7 +261,7 @@
                         iconElement.style.marginLeft = x;
 
                         if (debug)
-                            document.getElementById("floating_degub").innerHTML = "<br/><br/><br/><br/><br/><br/>Timer: " + time + "<br/>deta: " + delta + "<br/> Time: " + startTime + "/" + endTime + "<br/> Speed: " + speed + "<br\>Pos xy: " + x + "/" + y + "<br/> Distance: " + distance + "<br/>maxY: " + maxY;
+                            document.getElementById("floating_degub").innerHTML = "<br/><br/><br/><br/><br/><br/>Timer: " + time + "<br/>Delta: " + delta + "<br/> Time: " + startTime + "/" + endTime + "<br/> Speed: " + speed + "<br\>Pos x/y: " + x + "/" + y + "<br/> Distance: " + distance + "<br/>MaxY: " + maxY;
 
                         if (delta > 1.01) {
                             if (Downloading == filename) {
@@ -303,6 +277,7 @@
                 // Start debug
                 //SetFloatingIcon(".dbg", true);
                 //Downloading = ".dbg";
+                //FileListing(".dbg");
                 // End debug
             }
 
