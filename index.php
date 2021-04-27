@@ -35,19 +35,22 @@
                 var SECONDS_FOR_RANDOM_MESSAGES = 15;
                 // Plays audio when a download starts
                 var AUDIO = true;
-                // The DIV element that holds the icons
-                var ICONS_BOX = true;
+                // Icons Width x Height
+                var ICONS_WIDTH = 16;
+                var ICONS_HEIGHT = 16;
+
+                // Animations:
+
+                // Icons poping in a box
+                var ICONS_BOX = false;
                     // Number of icons per line
                     var ICONS_PER_LINE = 30;
                     // Number of lines
                     var LINES = 7;
-                // Icons Width x Height
-                var ICONS_WIDTH = 16;
-                var ICONS_HEIGHT = 16;
+
             //  ------------------------------------- //
 
-            var keywords = 
-            [
+            var keywords = [
                 "Unwelding Boxes", 
                 "Charging Toolgun", 
                 "Breaking Addons", 
@@ -138,27 +141,23 @@
             // ----------------------------------------------------------------------------------
             // Icons Box ------------------------------------------------------------------------
 
-            if (ICONS_BOX)
-            {
+            if (ICONS_BOX) {
                 document.getElementById("icons_div").style.height = ICONS_HEIGHT * LINES + LINES + 'px';
                 document.getElementById("icons_div").style.width = ICONS_WIDTH * ICONS_PER_LINE + ICONS_PER_LINE * 2 + 'px';
             }
 
-            function Right(str, n)
-            {
+            function Right(str, n) {
                 if (n <= 0)
                    return "";
                 else if (n > String(str).length)
                    return str;
-                else
-                {
+                else {
                    var iLen = String(str).length;
                    return String(str).substring(iLen, iLen - n);
                 }
             }
 
-            function FileListing(filename)
-            {
+            function FileListing(filename) {
                 var icon = "icon" + iconIncrement;
                 
                 if (Right(filename, 3) in ext)
@@ -175,8 +174,7 @@
                 
                 iconIncrement++;
                 
-                if (AUDIO)
-                {
+                if (AUDIO) {
                     audio[audioIncrement].play();
 
                     if (audioIncrement == 6)
@@ -189,8 +187,7 @@
             // ----------------------------------------------------------------------------------
             // Change Text ----------------------------------------------------------------------
 
-            function UpdateText(text)
-            {
+            function UpdateText(text) {
                 var str = "";
                 var i;
                 
@@ -205,23 +202,21 @@
                 document.getElementById("loadingtext").innerHTML = str;
             }
 
-            function ChangeText()
-            {
-                setTimeout(function ()
-                {
+            function ChangeText() {
+                setTimeout(function () {
                     time++;
-                    if (time > SECONDS_FOR_RANDOM_MESSAGES)
-                    {
+
+                    if (time > SECONDS_FOR_RANDOM_MESSAGES) {
                         var keyword = keywords[Math.floor(Math.random() * keywords.length)]
                         UpdateText(keyword);
                         time = 0;
                     }
+
                     ChangeText();
                 }, 1000)
             }
 
-            function RefreshFileBox(text)
-            {
+            function RefreshFileBox(text) {
                 if (FilesNeeded != 0)
                     document.getElementById("files").innerHTML = text || FilesNeeded + " files needed"; 
             }
@@ -229,25 +224,21 @@
             // ----------------------------------------------------------------------------------
             // GMod Functions -------------------------------------------------------------------
 
-            function GameDetails( servername, serverurl, mapname, maxplayers, steamid, gamemode )
-            {
+            function GameDetails(servername, serverurl, mapname, maxplayers, steamid, gamemode) {
                 document.getElementById("infos").innerHTML = servername;
             }
 
-            function SetFilesNeeded(Needed)
-            {
+            function SetFilesNeeded(Needed) {
                 FilesNeeded = Needed;
                 RefreshFileBox();
             }
 
-            function SetFilesTotal(iTotal)
-            {
+            function SetFilesTotal(iTotal) {
                 FilesTotal = iTotal;
                 RefreshFileBox();
             }
 
-            function DownloadingFile(filename)
-            {
+            function DownloadingFile(filename) {
                 FilesNeeded--;
 
                 if (FilesNeeded == 0 || isNaN(FilesNeeded))
@@ -265,16 +256,14 @@
                     FileListing(filename);
             }
 
-            function SetStatusChanged(status)
-            {
+            function SetStatusChanged(status) {
                 if (status == "Mounting Addons")
                     DownloadingWorkshop = false;
  
                  if (status == "Received all Lua files we needed!")
                     RefreshFileBox(keywords[Math.floor(Math.random() * keywords.length)])
 
-                if (DownloadingWorkshop)
-                {
+                if (DownloadingWorkshop) {
                     FilesNeeded--;
 
                     if (FilesNeeded == 0 || isNaN(FilesNeeded))
