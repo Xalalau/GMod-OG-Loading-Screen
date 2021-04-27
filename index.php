@@ -41,6 +41,9 @@
 
                 // Animations:
 
+                // Floating icons
+                var ICONS_RUNNER = true;
+
                 // Icons poping in a box
                 var ICONS_BOX = false;
                     // Number of icons per line
@@ -144,43 +147,52 @@
             if (ICONS_BOX) {
                 document.getElementById("icons_div").style.height = ICONS_HEIGHT * LINES + LINES + 'px';
                 document.getElementById("icons_div").style.width = ICONS_WIDTH * ICONS_PER_LINE + ICONS_PER_LINE * 2 + 'px';
-            }
 
-            function Right(str, n) {
-                if (n <= 0)
-                   return "";
-                else if (n > String(str).length)
-                   return str;
-                else {
-                   var iLen = String(str).length;
-                   return String(str).substring(iLen, iLen - n);
+                function Right(str, n) {
+                    if (n <= 0)
+                    return "";
+                    else if (n > String(str).length)
+                    return str;
+                    else {
+                    var iLen = String(str).length;
+                    return String(str).substring(iLen, iLen - n);
+                    }
+                }
+
+                function FileListing(filename) {
+                    var icon = "icon" + iconIncrement;
+                    
+                    if (Right(filename, 3) in ext)
+                        iconArray = '<img id="' + icon + '" style="float: left; width: ' + ICONS_WIDTH + 'px; height: ' + ICONS_HEIGHT + 'px; padding: 1px 2px 0 0;" src="' + link + ext[Right(filename, 3)] + '"/>' + iconArray;
+                    else
+                        iconArray = '<img id="' + icon + '" style="float: left; width: ' + ICONS_WIDTH + 'px; height: ' + ICONS_HEIGHT + 'px; padding: 1px 2px 0 0;" src="' + link + ext["generic"] + '"/>' + iconArray;
+
+                    document.getElementById("icons").innerHTML = iconArray;
+
+                    document.getElementById(icon).style.height = '0px';
+                    document.getElementById(icon).style.width = '0px';
+                    
+                    $("#" + icon).animate({height: ICONS_HEIGHT + "px", width: ICONS_WIDTH + "px"});
+                    
+                    iconIncrement++;
+                    
+                    if (AUDIO) {
+                        audio[audioIncrement].play();
+
+                        if (audioIncrement == 6)
+                            audioIncrement = 0;
+
+                        audioIncrement++;
+                    }
                 }
             }
 
-            function FileListing(filename) {
-                var icon = "icon" + iconIncrement;
-                
-                if (Right(filename, 3) in ext)
-                    iconArray = '<img id="' + icon + '" style="float: left; width: ' + ICONS_WIDTH + 'px; height: ' + ICONS_HEIGHT + 'px; padding: 1px 2px 0 0;" src="' + link + ext[Right(filename, 3)] + '"/>' + iconArray;
-                else
-                    iconArray = '<img id="' + icon + '" style="float: left; width: ' + ICONS_WIDTH + 'px; height: ' + ICONS_HEIGHT + 'px; padding: 1px 2px 0 0;" src="' + link + ext["generic"] + '"/>' + iconArray;
+            // ----------------------------------------------------------------------------------
+            // Icons Runner ---------------------------------------------------------------------
 
-                document.getElementById("icons").innerHTML = iconArray;
-
-                document.getElementById(icon).style.height = '0px';
-                document.getElementById(icon).style.width = '0px';
-                
-                $("#" + icon).animate({height: ICONS_HEIGHT + "px", width: ICONS_WIDTH + "px"});
-                
-                iconIncrement++;
-                
-                if (AUDIO) {
-                    audio[audioIncrement].play();
-
-                    if (audioIncrement == 6)
-                        audioIncrement = 0;
-
-                    audioIncrement++;
+            if (ICONS_RUNNER) {
+                function FileListing(filename) {
+                    
                 }
             }
 
