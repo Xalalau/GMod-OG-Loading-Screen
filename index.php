@@ -141,13 +141,13 @@
             var FilesTotal = 0;
             var DownloadingWorkshop = true;
 
+            document.getElementById("icons_div").style.height = ICONS_HEIGHT * LINES + LINES + 'px';
+            document.getElementById("icons_div").style.width = ICONS_WIDTH * ICONS_PER_LINE + ICONS_PER_LINE * 2 + 'px';
+
             // ----------------------------------------------------------------------------------
             // Icons Box ------------------------------------------------------------------------
 
             if (ICONS_BOX) {
-                document.getElementById("icons_div").style.height = ICONS_HEIGHT * LINES + LINES + 'px';
-                document.getElementById("icons_div").style.width = ICONS_WIDTH * ICONS_PER_LINE + ICONS_PER_LINE * 2 + 'px';
-
                 function Right(str, n) {
                     if (n <= 0)
                     return "";
@@ -192,7 +192,7 @@
 
             if (ICONS_RUNNER) {
                 function FileListing(filename) {
-                    
+
                 }
             }
 
