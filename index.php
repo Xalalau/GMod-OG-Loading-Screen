@@ -168,6 +168,36 @@
 
             if (ICONS_BOX) {
                 function FileListing(filename) {
+                    var icon = "";
+                    var iconID = "icon" + iconIncrement;
+                    var extension = GetExtension(filename, 3);
+
+                    if (extension in ext)
+                        icon = iconFolder + ext[extension];
+                    else
+                        icon = iconFolder + ext["generic"];
+                    
+                    iconArray = '<img id="' + iconID + '" style="float: left; width: 0px; height: 0px; padding: 1px 2px 0 0;" src="' + icon + '"/>' + iconArray;
+
+                    document.getElementById("icons").innerHTML = iconArray;
+
+                    $("#" + iconID).animate({height: ICONS_HEIGHT + "px", width: ICONS_WIDTH + "px"});
+                    
+                    iconIncrement++;
+
+                    if (AUDIO) {
+                        audio[audioIncrement].play();
+
+                        audioIncrement++;
+
+                        if (audioIncrement == 7)
+                            audioIncrement = 0;
+                    }
+                }
+            }
+
+            if (ICONS_BOX) {
+                function FileListing(filename) {
                     var icon = "icon" + iconIncrement;
                     
                     if (GetExtension(filename, 3) in ext)
@@ -228,6 +258,8 @@
                     iconElement.style.position = "absolute";
                     iconElement.style.marginLeft = "-100px";
                     iconElement.src = icon;
+                    iconElement.src = icon;
+                    iconElement.zIndex = "1";
                     document.getElementById("floating_icons").appendChild(iconElement);
 
                     var distance = Math.random() * 300;
