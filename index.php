@@ -250,8 +250,8 @@
             {
                 FilesNeeded--;
 
-                if (FilesNeeded == 0)
-                    FilesNeeded = "( ͡° ͜ʖ ͡°) 0";
+                if (FilesNeeded == 0 || isNaN(FilesNeeded))
+                        FilesNeeded = "( ͡° ͜ʖ ͡°) 0";
 
                 RefreshFileBox();
 
@@ -277,12 +277,12 @@
                 {
                     FilesNeeded--;
 
-                    if (FilesNeeded == 0)
+                    if (FilesNeeded == 0 || isNaN(FilesNeeded))
                         FilesNeeded = "( ͡° ͜ʖ ͡°) 0";
 
                     RefreshFileBox();
                     
-                    FileListing(".wlo");                    
+                    FileListing(".wlo");
 
                     status = status.replace(/\d.*?\-/g, ''); // Remove the counting and total size
                 }
