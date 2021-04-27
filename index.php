@@ -9,7 +9,10 @@
         <div style='text-align: center; top: 40px; left: 0px; right: 0px; height: 50px; overflow: show; font-family: Arial; font-size: 24px; font-weight: bold; color: #888' id='files'>
         </div>
 
-        <div style='top: 100px; margin: 0 auto; overflow: hidden;' id='icons_div'>
+        <div style='position: absolute; width: 100%; height: 350px;' id='floating_icons'></div>
+        <span style="position: absolute;" id="floating_degub"></span>
+
+        <div style='top: 100px; margin: 0 auto; overflow: hidden;' id='icons_box'>
           <div style='position: relative; float: right; right: 50%;'>
                 <div style='position: relative; float: right; right: -50%;' id='icons'>
                 </div>
@@ -18,7 +21,7 @@
 
         <div style="text-align: center;">
             <div style='padding-top: 30px; top: 0; right: 0; bottom: 0; left: 0; width: 50%; height: 50%; margin: auto; overflow: show;'>
-                <img src='loading.png' id='teste'>
+                <img src='loading.png'>
                 <div id='loadingtext' style='margin-top: 10px; color: #666; font-family: Arial; font-size: 12px; font-weight: bold;'>Waiting for updates...</div>
             </div>
         </div>
@@ -27,7 +30,6 @@
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
 
         <script type="text/javascript">
-            
             //  ------------------------------------- //
                 // Number of messages that we can see bellow the GMod logo 
                 var MESSAGES = 18;
@@ -42,10 +44,10 @@
                 // Animations:
 
                 // Floating icons
-                var ICONS_RUNNER = true;
+                var FLOATING_ICONS = true;
 
                 // Icons poping in a box
-                var ICONS_BOX = false;
+                var ICONS_BOX = true;
                     // Number of icons per line
                     var ICONS_PER_LINE = 30;
                     // Number of lines
@@ -85,7 +87,7 @@
                 "Breaking Source Engine"
             ]
             
-            var link = "icons/";
+            var iconFolder = "icons/";
 
             var ext = [];
             
@@ -119,6 +121,8 @@
 
             ext['generic'] = "box.png";
 
+            ext['dbg'] = "cancel.png"; // Debug
+
             var audio = [];
             audio[1] = new Audio('push.wav');
             audio[2] = new Audio('push.wav');
@@ -139,33 +143,37 @@
 
             var FilesNeeded = 0;
             var FilesTotal = 0;
-            var DownloadingWorkshop = true;
+            var RunningWorkshop = true;
+            var Downloading = false;
 
-            document.getElementById("icons_div").style.height = ICONS_HEIGHT * LINES + LINES + 'px';
-            document.getElementById("icons_div").style.width = ICONS_WIDTH * ICONS_PER_LINE + ICONS_PER_LINE * 2 + 'px';
+            document.getElementById("icons_box").style.height = ICONS_HEIGHT * LINES + LINES + 'px';
+            document.getElementById("icons_box").style.width = ICONS_WIDTH * ICONS_PER_LINE + ICONS_PER_LINE * 2 + 'px';
+
+            // ----------------------------------------------------------------------------------
+            // General --------------------------------------------------------------------------
+            
+            function GetExtension(str, n) {
+                if (n <= 0)
+                    return "";
+                else if (n > String(str).length)
+                    return str;
+                else {
+                    var iLen = String(str).length;
+                    return String(str).substring(iLen, iLen - n);
+                }
+            }
 
             // ----------------------------------------------------------------------------------
             // Icons Box ------------------------------------------------------------------------
 
             if (ICONS_BOX) {
-                function Right(str, n) {
-                    if (n <= 0)
-                    return "";
-                    else if (n > String(str).length)
-                    return str;
-                    else {
-                    var iLen = String(str).length;
-                    return String(str).substring(iLen, iLen - n);
-                    }
-                }
-
                 function FileListing(filename) {
                     var icon = "icon" + iconIncrement;
                     
-                    if (Right(filename, 3) in ext)
-                        iconArray = '<img id="' + icon + '" style="float: left; width: ' + ICONS_WIDTH + 'px; height: ' + ICONS_HEIGHT + 'px; padding: 1px 2px 0 0;" src="' + link + ext[Right(filename, 3)] + '"/>' + iconArray;
+                    if (GetExtension(filename, 3) in ext)
+                        iconArray = '<img id="' + icon + '" style="float: left; width: ' + ICONS_WIDTH + 'px; height: ' + ICONS_HEIGHT + 'px; padding: 1px 2px 0 0;" src="' + iconFolder + ext[GetExtension(filename, 3)] + '"/>' + iconArray;
                     else
-                        iconArray = '<img id="' + icon + '" style="float: left; width: ' + ICONS_WIDTH + 'px; height: ' + ICONS_HEIGHT + 'px; padding: 1px 2px 0 0;" src="' + link + ext["generic"] + '"/>' + iconArray;
+                        iconArray = '<img id="' + icon + '" style="float: left; width: ' + ICONS_WIDTH + 'px; height: ' + ICONS_HEIGHT + 'px; padding: 1px 2px 0 0;" src="' + iconFolder + ext["generic"] + '"/>' + iconArray;
 
                     document.getElementById("icons").innerHTML = iconArray;
 
@@ -188,12 +196,82 @@
             }
 
             // ----------------------------------------------------------------------------------
-            // Icons Runner ---------------------------------------------------------------------
+            // Floating Icons -------------------------------------------------------------------
 
-            if (ICONS_RUNNER) {
-                function FileListing(filename) {
-
+            if (FLOATING_ICONS) {
+                function GetCurrentTime() {
+                    return new Date().getTime() / 1000;
                 }
+
+                function Lerp(delta, from, to) {
+                    if (delta < 0) return from;
+                    if (delta > 1) return to;
+                    return from + (to - from) * delta;
+                }
+
+                function SetFloatingIcon(filename, debug) {
+                    var icon = "";
+                    var debug = false;
+                    var extension = GetExtension(filename, 3);
+
+                    if (extension == "dbg")
+                        debug = true;
+
+                    if (extension in ext)
+                        icon = iconFolder + ext[extension];
+                    else
+                        icon = iconFolder + ext["generic"];
+
+                    var iconElement = document.createElement("img");
+                    iconElement.style.width = "16px";
+                    iconElement.style.height = "16px";
+                    iconElement.style.position = "absolute";
+                    iconElement.style.marginLeft = "-100px";
+                    iconElement.src = icon;
+                    document.getElementById("floating_icons").appendChild(iconElement);
+
+                    var distance = Math.random() * 300;
+                    var baseY = document.getElementById("floating_icons").offsetHeight - distance;
+                    var maxY = (1 - Math.random() * 0.5) * 128;
+                    var speed = 50 * (1 - Math.random() * 0.5);
+                    var startTime = GetCurrentTime();
+                    var endTime = startTime + speed * 0.5;
+
+                    if (debug)
+                        var time = 0;
+
+                    var timer = setInterval(function () {
+                        if (debug)
+                            time++;
+
+                        var currentTime = GetCurrentTime();
+
+                        var delta = (currentTime - startTime) / (endTime - startTime);
+
+                        var x = Lerp(delta, -62, document.getElementById("floating_icons").offsetWidth);
+                        var y = baseY - maxY + Math.sin(x * 0.01) * maxY/2;
+
+                        iconElement.style.marginTop = y;
+                        iconElement.style.marginLeft = x;
+
+                        if (debug)
+                            document.getElementById("floating_degub").innerHTML = "<br/><br/><br/><br/><br/><br/>Timer: " + time + "<br/>deta: " + delta + "<br/> Time: " + startTime + "/" + endTime + "<br/> Speed: " + speed + "<br\>Pos xy: " + x + "/" + y + "<br/> Distance: " + distance + "<br/>maxY: " + maxY;
+
+                        if (delta > 1.01) {
+                            if (Downloading == filename) {
+                                startTime = GetCurrentTime();
+                                endTime = startTime + speed * 0.5;
+                            } else
+                                clearInterval(timer);
+                        }
+                    }, 0.1)
+                }
+
+                // Test SetFloatingIcon()
+                // Start debug
+                //SetFloatingIcon(".dbg", true);
+                //Downloading = ".dbg";
+                // End debug
             }
 
             // ----------------------------------------------------------------------------------
@@ -219,7 +297,7 @@
                     time++;
 
                     if (time > SECONDS_FOR_RANDOM_MESSAGES) {
-                        var keyword = keywords[Math.floor(Math.random() * keywords.length)]
+                        var keyword = keywords[Math.floor(Math.random() * keywords.length)];
                         UpdateText(keyword);
                         time = 0;
                     }
@@ -254,7 +332,7 @@
                 FilesNeeded--;
 
                 if (FilesNeeded == 0 || isNaN(FilesNeeded))
-                        FilesNeeded = "( ͡° ͜ʖ ͡°) 0";
+                    FilesNeeded = "( ͡° ͜ʖ ͡°) 0";
 
                 RefreshFileBox();
 
@@ -262,28 +340,50 @@
 
                 time = 0;
 
-                if (DownloadingWorkshop)
-                    FileListing(".wdo");
-                else
-                    FileListing(filename);
+                if (RunningWorkshop)
+                    filename = filename + ".wdo";
+
+                if (Downloading) {
+                    if (ICONS_BOX)
+                        FileListing(Downloading);
+
+                    Downloading = false;
+                }
+
+                Downloading = filename;
+
+                if (FLOATING_ICONS)
+                    SetFloatingIcon(filename);
             }
 
             function SetStatusChanged(status) {
                 if (status == "Mounting Addons")
-                    DownloadingWorkshop = false;
+                    RunningWorkshop = false;
  
                  if (status == "Received all Lua files we needed!")
-                    RefreshFileBox(keywords[Math.floor(Math.random() * keywords.length)])
+                    RefreshFileBox(keywords[Math.floor(Math.random() * keywords.length)]);
 
-                if (DownloadingWorkshop) {
+                if (Downloading) {
+                    if (ICONS_BOX)
+                        FileListing(Downloading);
+
+                    Downloading = false;
+                }
+
+                if (RunningWorkshop) {
                     FilesNeeded--;
 
                     if (FilesNeeded == 0 || isNaN(FilesNeeded))
                         FilesNeeded = "( ͡° ͜ʖ ͡°) 0";
 
                     RefreshFileBox();
-                    
-                    FileListing(".wlo");
+
+                    var id = status + ".wlo";
+
+                    Downloading = id;
+
+                    if (FLOATING_ICONS)
+                        SetFloatingIcon(id);
 
                     status = status.replace(/\d.*?\-/g, ''); // Remove the counting and total size
                 }
