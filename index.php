@@ -19,7 +19,7 @@
         <div style="text-align: center;">
             <div style='padding-top: 30px; top: 0; right: 0; bottom: 0; left: 0; width: 50%; height: 50%; margin: auto; overflow: show;'>
                 <img src='loading.png' id='teste'>
-                <div id='loadingtext' style='margin-top: 10px; color: #666; font-family: Arial; font-size: 12px; font-weight: bold;'>Loading Text...</div>
+                <div id='loadingtext' style='margin-top: 10px; color: #666; font-family: Arial; font-size: 12px; font-weight: bold;'>Waiting for updates...</div>
             </div>
         </div>
 
@@ -135,6 +135,9 @@
             var FilesTotal = 0;
             var DownloadingWorkshop = true;
 
+            // ----------------------------------------------------------------------------------
+            // Icons Box ------------------------------------------------------------------------
+
             if (ICONS_BOX)
             {
                 document.getElementById("icons_div").style.height = ICONS_HEIGHT * LINES + LINES + 'px';
@@ -153,6 +156,38 @@
                    return String(str).substring(iLen, iLen - n);
                 }
             }
+
+            function FileListing(filename)
+            {
+                var icon = "icon" + iconIncrement;
+                
+                if (Right(filename, 3) in ext)
+                    iconArray = '<img id="' + icon + '" style="float: left; width: ' + ICONS_WIDTH + 'px; height: ' + ICONS_HEIGHT + 'px; padding: 1px 2px 0 0;" src="' + link + ext[Right(filename, 3)] + '"/>' + iconArray;
+                else
+                    iconArray = '<img id="' + icon + '" style="float: left; width: ' + ICONS_WIDTH + 'px; height: ' + ICONS_HEIGHT + 'px; padding: 1px 2px 0 0;" src="' + link + ext["generic"] + '"/>' + iconArray;
+
+                document.getElementById("icons").innerHTML = iconArray;
+
+                document.getElementById(icon).style.height = '0px';
+                document.getElementById(icon).style.width = '0px';
+                
+                $("#" + icon).animate({height: ICONS_HEIGHT + "px", width: ICONS_WIDTH + "px"});
+                
+                iconIncrement++;
+                
+                if (AUDIO)
+                {
+                    audio[audioIncrement].play();
+
+                    if (audioIncrement == 6)
+                        audioIncrement = 0;
+
+                    audioIncrement++;
+                }
+            }
+
+            // ----------------------------------------------------------------------------------
+            // Change Text ----------------------------------------------------------------------
 
             function UpdateText(text)
             {
@@ -185,34 +220,14 @@
                 }, 1000)
             }
 
-            function FileListing(filename)
+            function RefreshFileBox(text)
             {
-                var icon = "icon" + iconIncrement;
-                
-                if (Right(filename, 3) in ext)
-                    iconArray = '<img id="' + icon + '" style="float: left; width: ' + ICONS_WIDTH + 'px; height: ' + ICONS_HEIGHT + 'px; padding: 1px 2px 0 0;" src="' + link + ext[Right(filename, 3)] + '"/>' + iconArray;
-                else
-                    iconArray = '<img id="' + icon + '" style="float: left; width: ' + ICONS_WIDTH + 'px; height: ' + ICONS_HEIGHT + 'px; padding: 1px 2px 0 0;" src="' + link + ext["generic"] + '"/>' + iconArray;
-
-                document.getElementById("icons").innerHTML = iconArray;
-
-                document.getElementById(icon).style.height = '0px';
-                document.getElementById(icon).style.width = '0px';
-                
-                $("#" + icon).animate({height: ICONS_HEIGHT + "px", width: ICONS_WIDTH + "px"});
-                
-                iconIncrement++;
-                
-                if (AUDIO)
-                {
-                    audio[audioIncrement].play();
-
-                    if (audioIncrement == 6)
-                        audioIncrement = 0;
-
-                    audioIncrement++;
-                }
+                if (FilesNeeded != 0)
+                    document.getElementById("files").innerHTML = text || FilesNeeded + " files needed"; 
             }
+
+            // ----------------------------------------------------------------------------------
+            // GMod Functions -------------------------------------------------------------------
 
             function GameDetails( servername, serverurl, mapname, maxplayers, steamid, gamemode )
             {
@@ -274,12 +289,6 @@
 
                 UpdateText(status);
                 time = 0;
-            }
-
-            function RefreshFileBox(text)
-            {
-                if (FilesNeeded != 0)
-                    document.getElementById("files").innerHTML = text || FilesNeeded + " files needed"; 
             }
 
             RefreshFileBox();
