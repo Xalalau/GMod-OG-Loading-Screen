@@ -31,28 +31,45 @@
 
         <script type="text/javascript">
             //  ------------------------------------- //
-                // Number of messages that we can see bellow the GMod logo 
-                var MESSAGES = 18;
-                // Random messages will appear after this time, but it allways goes back to 0 when a new download starts
-                var SECONDS_FOR_RANDOM_MESSAGES = 15;
-                // Plays audio when a download starts
-                var AUDIO = true;
-                // Icons Width x Height
-                var ICONS_WIDTH = 16;
-                var ICONS_HEIGHT = 16;
+                // Get vars from the link
+                var parts = window.location.search.substr(1).split("&");
+                var $_GET = {};
+                for (var i = 0; i < parts.length; i++) {
+                    var temp = parts[i].split("=");
+                    $_GET[decodeURIComponent(temp[0])] = (temp[1] != "false") ? decodeURIComponent(temp[1]) : null;
+                }
 
                 // Animations:
+                // ------------
 
                 // Floating icons
-                var FLOATING_ICONS = true;
+                var FLOATING_ICONS = $_GET["floating"] || true;
 
                 // Icons poping in a box
-                var ICONS_BOX = true;
-                    // Number of icons per line
-                    var ICONS_PER_LINE = 30;
-                    // Number of lines
-                    var LINES = 7;
+                var ICONS_BOX = $_GET["box"] || true;
+                // Number of icons per line
+                var ICONS_PER_LINE = $_GET["boxIconsPerLine"] || 30;
+                // Number of lines
+                var LINES = $_GET["boxLines"] || 7;
 
+                // Details:
+                // ------------
+
+                // Number of messages that we can see bellow the GMod logo 
+                var MESSAGES = $_GET["messages"] || 18;
+                // Random messages will appear after this time, but it allways goes back to 0 when a new download starts
+                var SECONDS_FOR_RANDOM_MESSAGES = $_GET["randMsgSecs"] || 15;
+                // Plays audio when a download starts
+                var AUDIO = $_GET["audio"] || true;
+                // Icons Width x Height
+                var ICONS_WIDTH = $_GET["iconW"] || 16;
+                var ICONS_HEIGHT = $_GET["iconH"] || 16;
+
+                // Dev:
+                // ------------
+
+                // Show extra informations
+                var DEBUG = $_GET["debug"] || false;
             //  ------------------------------------- //
 
             var keywords = [
@@ -271,12 +288,11 @@
                     }, 0.1)
                 }
 
-                // Test SetFloatingIcon()
-                // Start debug
-                //SetFloatingIcon(".dbg", true);
-                //Downloading = ".dbg";
-                //FileListing(".dbg");
-                // End debug
+                if (DEBUG) {
+                    Downloading = ".dbg";
+                    SetFloatingIcon(".dbg", true);
+                    FileListing(".dbg");
+                }
             }
 
             // ----------------------------------------------------------------------------------
