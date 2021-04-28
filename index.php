@@ -134,8 +134,6 @@
             var audioIncrement = 1;
 
             var msg = [];
-            for (i=1; i<=MESSAGES; i++)
-                msg[i] = "";
 
             var time = 0;
 
@@ -285,17 +283,17 @@
             // Change Text ----------------------------------------------------------------------
 
             function UpdateText(text) {
+                msg.push(text);
+
                 var str = "";
-                var i;
-                
-                for (i=MESSAGES; i>=2; i--)
-                    msg[i] = msg[i-1];
+                var limit = Math.max(msg.length - MESSAGES, 0)
+                var opacity = Math.min(msg.length, MESSAGES)
 
-                msg[1] = text;
+                for (var i = msg.length; i >= limit; i--) {
+                    if ( ! msg[i]) continue;
+                    str = str + '<span style="color: ' + 'hsl(0, 0%,' + 100 * (1 / opacity) * (opacity - (i - limit)) + '%)' + ';">' + msg[i] + '</span><br/>';
+                }
 
-                for (i=1; i<=MESSAGES; i++)
-                    str = str + '<span style="color: ' + 'hsl(0, 0%,' + 100*(1-(1/MESSAGES)*(MESSAGES-i)) + '%)' + ';">' + msg[i] + '</span><br/>';
-                
                 document.getElementById("loadingtext").innerHTML = str;
             }
 
