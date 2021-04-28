@@ -9,6 +9,7 @@
         <div style='text-align: center; top: 40px; left: 0px; right: 0px; height: 50px; overflow: show; font-family: Arial; font-size: 24px; font-weight: bold; color: #888' id='files'>
         </div>
 
+        <div style="height: 20px;"></div>
         <div style='position: absolute; width: 100%; height: 350px;' id='floating_icons'></div>
         <span style="position: absolute;" id="floating_degub"></span>
 
@@ -280,7 +281,7 @@
                     document.getElementById("floating_icons").appendChild(iconElement);
 
                     var distance = Math.random() * 300;
-                    var baseY = document.getElementById("floating_icons").offsetHeight - distance;
+                    var baseY = document.getElementById("floating_icons").offsetHeight + 100 - distance;
                     var maxY = (1 - Math.random() * 0.5) * 128;
                     var speed = 50 * (1 - Math.random() * 0.5);
                     var startTime = GetCurrentTime();
