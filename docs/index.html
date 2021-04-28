@@ -51,11 +51,14 @@
                     return result;
                 }
 
-                // Animations:
+                // Floating Icons:
                 // ------------
 
                 // Floating icons
                 var FLOATING_ICONS = S_GET("floating") || true;
+
+                // Icons Box:
+                // ------------
 
                 // Icons poping in a box
                 var ICONS_BOX = S_GET("box") || true;
@@ -63,25 +66,23 @@
                 var ICONS_PER_LINE = S_GET("boxIconsPerLine") || 30;
                 // Number of lines
                 var LINES = S_GET("boxLines") || 7;
+                // Plays audio when a download starts
+                var AUDIO = S_GET("audio") || true;
 
-
-
-                // Details:
+                // Messages:
                 // ------------
 
                 // Number of messages that we can see bellow the GMod logo 
                 var MESSAGES = S_GET("messages") || 18;
                 // Random messages will appear after this time, but it allways goes back to 0 when a new download starts
                 var SECONDS_FOR_RANDOM_MESSAGES = S_GET("randMsgSecs") || 15;
-                // Plays audio when a download starts
-                var AUDIO = S_GET("audio") || true;
+
+                // Extra:
+                // ------------
+
                 // Icons Width x Height
                 var ICONS_WIDTH = S_GET("iconW") || 16;
                 var ICONS_HEIGHT = S_GET("iconH") || 16;
-
-                // Dev:
-                // ------------
-
                 // Show extra informations
                 var DEBUG = S_GET("debug") || false;
             //  ------------------------------------- //
