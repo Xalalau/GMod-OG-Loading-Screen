@@ -31,46 +31,59 @@
 
         <script type="text/javascript">
             //  ------------------------------------- //
-                // Get vars from the link
-                var parts = window.location.search.substr(1).split("&");
-                var $_GET = {};
-                for (var i = 0; i < parts.length; i++) {
-                    var temp = parts[i].split("=");
-                    if (temp[1] != "false" && temp[1] != "true") temp[1] = Number(temp[1]);
-                    $_GET[temp[0]] = (temp[1] != "false") ? temp[1] : null;
+                function S_GET(parameterName) {
+                    var result = null,
+                    tmp = [];
+
+                    location.search.substr(1).split("&").forEach(function (item) {
+                        tmp = item.split("=");
+                        
+                        if (tmp[0] === parameterName) {
+                            result = decodeURIComponent(tmp[1]);
+                            
+                            if (result == "false")
+                                result = null;
+                            else if (result != "true")
+                                result = Number(result);
+                        }
+                    });
+
+                    return result;
                 }
 
                 // Animations:
                 // ------------
 
                 // Floating icons
-                var FLOATING_ICONS = $_GET["floating"] || true;
+                var FLOATING_ICONS = S_GET("floating") || true;
 
                 // Icons poping in a box
-                var ICONS_BOX = $_GET["box"] || true;
+                var ICONS_BOX = S_GET("box") || true;
                 // Number of icons per line
-                var ICONS_PER_LINE = $_GET["boxIconsPerLine"] || 30;
+                var ICONS_PER_LINE = S_GET("boxIconsPerLine") || 30;
                 // Number of lines
-                var LINES = $_GET["boxLines"] || 7;
+                var LINES = S_GET("boxLines") || 7;
+
+
 
                 // Details:
                 // ------------
 
                 // Number of messages that we can see bellow the GMod logo 
-                var MESSAGES = $_GET["messages"] || 18;
+                var MESSAGES = S_GET("messages") || 18;
                 // Random messages will appear after this time, but it allways goes back to 0 when a new download starts
-                var SECONDS_FOR_RANDOM_MESSAGES = $_GET["randMsgSecs"] || 15;
+                var SECONDS_FOR_RANDOM_MESSAGES = S_GET("randMsgSecs") || 15;
                 // Plays audio when a download starts
-                var AUDIO = $_GET["audio"] || true;
+                var AUDIO = S_GET("audio") || true;
                 // Icons Width x Height
-                var ICONS_WIDTH = $_GET["iconW"] || 16;
-                var ICONS_HEIGHT = $_GET["iconH"] || 16;
+                var ICONS_WIDTH = S_GET("iconW") || 16;
+                var ICONS_HEIGHT = S_GET("iconH") || 16;
 
                 // Dev:
                 // ------------
 
                 // Show extra informations
-                var DEBUG = $_GET["debug"] || false;
+                var DEBUG = S_GET("debug") || false;
             //  ------------------------------------- //
 
             var keywords = [
@@ -337,7 +350,7 @@
             // GMod Functions -------------------------------------------------------------------
 
             function GameDetails(servername, serverurl, mapname, maxplayers, steamid, gamemode) {
-                document.getElementById("infos").innerHTML = servername;
+                //document.getElementById("infos").innerHTML = servername;
             }
 
             function SetFilesNeeded(Needed) {
