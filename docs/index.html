@@ -36,7 +36,8 @@
                 var $_GET = {};
                 for (var i = 0; i < parts.length; i++) {
                     var temp = parts[i].split("=");
-                    $_GET[decodeURIComponent(temp[0])] = (temp[1] != "false") ? decodeURIComponent(temp[1]) : null;
+                    if (temp[1] != "false" && temp[1] != "true") temp[1] = Number(temp[1]);
+                    $_GET[temp[0]] = (temp[1] != "false") ? temp[1] : null;
                 }
 
                 // Animations:
