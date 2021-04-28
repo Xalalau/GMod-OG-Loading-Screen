@@ -177,9 +177,6 @@
             var RunningWorkshop = true;
             var Downloading = false;
 
-            document.getElementById("icons_box").style.height = ICONS_HEIGHT * LINES + LINES + 'px';
-            document.getElementById("icons_box").style.width = ICONS_WIDTH * ICONS_PER_LINE + ICONS_PER_LINE * 2 + 'px';
-
             // ----------------------------------------------------------------------------------
             // General --------------------------------------------------------------------------
             
@@ -198,6 +195,9 @@
             // Icons Box ------------------------------------------------------------------------
 
             if (ICONS_BOX) {
+                document.getElementById("icons_box").style.height = ICONS_HEIGHT * LINES + LINES + 'px';
+                document.getElementById("icons_box").style.width = ICONS_WIDTH * ICONS_PER_LINE + ICONS_PER_LINE * 2 + 'px';
+
                 function FileListing(filename) {
                     var icon = "";
                     var iconID = "icon" + iconIncrement;
