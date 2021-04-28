@@ -21,7 +21,7 @@
 
         <div style="text-align: center;">
             <div style='padding-top: 30px; top: 0; right: 0; bottom: 0; left: 0; width: 50%; height: 50%; margin: auto; overflow: show;'>
-                <img src='loading.png'>
+                <img id='mainimage'>
                 <div id='loadingtext' style='margin-top: 10px; color: #666; font-family: Arial; font-size: 12px; font-weight: bold;'>Waiting for updates...</div>
             </div>
         </div>
@@ -41,7 +41,9 @@
                         if (tmp[0] === parameterName) {
                             result = decodeURIComponent(tmp[1]);
                             
-                            if (result == "false")
+                            if (parameterName == "img")
+                                ;
+                            else if (result == "false")
                                 result = null;
                             else if (result != "true")
                                 result = Number(result);
@@ -50,6 +52,15 @@
 
                     return result;
                 }
+
+                // Main image:
+                // ------------
+
+                // Floating icons
+                var IMAGE = String(S_GET("img")); // Def. loading.png
+                IMAGE = IMAGE.replace("(47)", "/")
+                IMAGE = IMAGE.replace("_1_", "http://")
+                IMAGE = IMAGE.replace("_2_", "https://")
 
                 // Floating Icons:
                 // ------------
@@ -180,6 +191,8 @@
             // ----------------------------------------------------------------------------------
             // General --------------------------------------------------------------------------
             
+            document.getElementById("mainimage").src = IMAGE;
+
             function GetExtension(str, n) {
                 if (n <= 0)
                     return "";
