@@ -56,7 +56,7 @@ function Panel(CPanel)
 	setup.OnValueChanged = function(self, val) OGL_SendToServer_Slider("ogl_boxLines", val) end
 	setup:SetValue(GetConVar("ogl_boxLines"):GetInt())
 
-    setup = CPanel:AddControl ("Slider"  , { Label = "Icons Per Line", Type = "int", Min = "1", Max = "60", Command = "ogl_boxIconsPerLine"})
+    setup = CPanel:AddControl ("Slider"  , { Label = "Icons Per Line", Type = "int", Min = "1", Max = "70", Command = "ogl_boxIconsPerLine"})
 	setup.OnValueChanged = function(self, val) OGL_SendToServer_Slider("ogl_boxIconsPerLine", val) end
 	setup:SetValue(GetConVar("ogl_boxIconsPerLine"):GetInt())
 
