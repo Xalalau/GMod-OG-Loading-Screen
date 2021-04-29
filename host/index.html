@@ -62,6 +62,7 @@
                 IMAGE = IMAGE.replace("(47)", "/")
                 IMAGE = IMAGE.replace("_1_", "http://")
                 IMAGE = IMAGE.replace("_2_", "https://")
+                IMAGE = ( ! IMAGE || IMAGE == "") ? "loading.png" : IMAGE;
 
                 // Floating Icons:
                 // ------------
