@@ -72,6 +72,14 @@
                 // Plays audio when a download starts
                 var AUDIO = S_GET("audio"); // Def. true
 
+                // Messages:
+                // ------------
+
+                // Number of messages that we can see bellow the GMod logo 
+                var MESSAGES = S_GET("messages"); // Def. 18
+                // Random messages will appear after this time, but it allways goes back to 0 when a new download starts
+                var SECONDS_FOR_RANDOM_MESSAGES = S_GET("randMsgSecs"); // Def. 15
+
                 // General:
                 // ------------
 
@@ -81,17 +89,10 @@
                 IMAGE = IMAGE.replace("_1_", "http://")
                 IMAGE = IMAGE.replace("_2_", "https://")
                 IMAGE = ( ! IMAGE || IMAGE == "") ? "loading.png" : IMAGE;
-                // Number of messages that we can see bellow the GMod logo 
-                var MESSAGES = S_GET("messages"); // Def. 18
-                // Random messages will appear after this time, but it allways goes back to 0 when a new download starts
-                var SECONDS_FOR_RANDOM_MESSAGES = S_GET("randMsgSecs"); // Def. 15
-
-                // Extra:
-                // ------------
-
                 // Icons Width x Height
                 var ICONS_WIDTH = S_GET("iconW") || 16;
                 var ICONS_HEIGHT = S_GET("iconH") || 16;
+
                 // Show extra informations
                 var DEBUG = S_GET("debug") || false;
             //  ------------------------------------- //
