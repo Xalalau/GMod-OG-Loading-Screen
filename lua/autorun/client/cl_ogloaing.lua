@@ -79,7 +79,7 @@ function Panel(CPanel)
 	setup:SetLabel("General")
 	setup:Dock(TOP)
 
-	setup = CPanel:AddControl ("TextBox"  , { Label = "Main image URL" })
+	setup = CPanel:AddControl ("TextBox"  , { Label = "Main Image URL" })
 	local textInit = false
 	setup.OnEnter = function(self, val)
 		if not textInit then return end
