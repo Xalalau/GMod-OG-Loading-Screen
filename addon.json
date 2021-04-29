@@ -1,0 +1,11 @@
+{
+	"title"		:	"OG Loading Screen",
+	"type"		:	"effects",
+	"tags"		:	[ "fun", "scenic" ],
+	"ignore"	:
+	[
+		"*.psd",
+		"*.vcproj",
+		"*.svn*"
+	]
+}
