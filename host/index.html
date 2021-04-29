@@ -85,10 +85,10 @@
 
                 // Main image
                 var IMAGE = String(S_GET("img")); // Def. loading.png
-                IMAGE = IMAGE.replace("(47)", "/")
-                IMAGE = IMAGE.replace("_1_", "http://")
-                IMAGE = IMAGE.replace("_2_", "https://")
-                IMAGE = ( ! IMAGE || IMAGE == "") ? "loading.png" : IMAGE;
+                IMAGE = IMAGE.replace("(47)", "/");
+                IMAGE = IMAGE.replace("_1_", "http://");
+                IMAGE = IMAGE.replace("_2_", "https://");
+                IMAGE = ( !IMAGE || IMAGE == "null" || IMAGE == "") ? "loading.png" : IMAGE;
                 // Icons Width x Height
                 var ICONS_WIDTH = S_GET("iconW") || 16;
                 var ICONS_HEIGHT = S_GET("iconH") || 16;
