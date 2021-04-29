@@ -54,16 +54,6 @@
                     return result;
                 }
 
-                // Main image:
-                // ------------
-
-                // Floating icons
-                var IMAGE = String(S_GET("img")); // Def. loading.png
-                IMAGE = IMAGE.replace("(47)", "/")
-                IMAGE = IMAGE.replace("_1_", "http://")
-                IMAGE = IMAGE.replace("_2_", "https://")
-                IMAGE = ( ! IMAGE || IMAGE == "") ? "loading.png" : IMAGE;
-
                 // Floating Icons:
                 // ------------
 
@@ -82,9 +72,15 @@
                 // Plays audio when a download starts
                 var AUDIO = S_GET("audio"); // Def. true
 
-                // Messages:
+                // General:
                 // ------------
 
+                // Main image
+                var IMAGE = String(S_GET("img")); // Def. loading.png
+                IMAGE = IMAGE.replace("(47)", "/")
+                IMAGE = IMAGE.replace("_1_", "http://")
+                IMAGE = IMAGE.replace("_2_", "https://")
+                IMAGE = ( ! IMAGE || IMAGE == "") ? "loading.png" : IMAGE;
                 // Number of messages that we can see bellow the GMod logo 
                 var MESSAGES = S_GET("messages"); // Def. 18
                 // Random messages will appear after this time, but it allways goes back to 0 when a new download starts
