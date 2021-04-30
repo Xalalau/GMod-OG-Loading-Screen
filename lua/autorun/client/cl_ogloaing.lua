@@ -87,6 +87,7 @@ function Panel(CPanel)
 		val = string.Replace(val, "https://", "_2_")
 		val = string.Replace(val, "/", "(47)")
 		val = string.Replace(val, " ", "")
+		RunConsoleCommand("ogl_img", val)
 		OGL_SendToServer("ogl_img", val)
 	end
 	local command = GetConVar("ogl_img"):GetString()
