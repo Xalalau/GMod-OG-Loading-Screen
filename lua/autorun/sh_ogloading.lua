@@ -11,7 +11,7 @@ olg_cvars = {
 	ogl_img = "",
 	ogl_iconW = 16,
 	ogl_iconH = 16,
-	--ogl_debug = false
+	--ogl_debugFloating = false
 }
 
 for k,v in pairs(olg_cvars) do

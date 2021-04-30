@@ -59,6 +59,8 @@
 
                 // Floating icons
                 var FLOATING_ICONS = S_GET("floating"); // Def. true
+                // Show extra informations
+                var DEBUG_FLOATING = S_GET("debugFloating") || false;
 
                 // Icons Box:
                 // ------------
@@ -93,8 +95,6 @@
                 var ICONS_WIDTH = S_GET("iconW") || 16;
                 var ICONS_HEIGHT = S_GET("iconH") || 16;
 
-                // Show extra informations
-                var DEBUG = S_GET("debug") || false;
                 // Preview the loading screen
                 var SIMULATE = S_GET("simulate") || false;
             //  ------------------------------------- //
@@ -295,7 +295,7 @@
             // ----------------------------------------------------------------------------------
             // Floating Icons -------------------------------------------------------------------
 
-            if (FLOATING_ICONS) {
+            if (FLOATING_ICONS || DEBUG_FLOATING) {
                 function GetCurrentTime() {
                     return new Date().getTime() / 1000;
                 }
@@ -308,7 +308,6 @@
 
                 function SetFloatingIcon(filename, debug) {
                     var icon = "";
-                    var debug = false;
                     var extension = GetExtension(filename, 3);
 
                     if (extension in ext)
@@ -362,10 +361,10 @@
                     }, 0.1)
                 }
 
-                if (DEBUG) {
+                if (DEBUG_FLOATING) {
                     Downloading = ".dbg";
-                    SetFloatingIcon(".dbg", true);
-                    FileListing(".dbg");
+                    SetFloatingIcon(Downloading, true);
+                    FileListing(Downloading);
                 }
             }
 

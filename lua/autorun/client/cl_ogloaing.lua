@@ -113,9 +113,9 @@ function Panel(CPanel)
     CPanel:ControlHelp("If you've activated the pop sound and want to hear it, click anywhere in the simulation.")
 
 	--[[
-    setup = CPanel:AddControl ("CheckBox", { Label = "Pop sound", Command = "ogl_debug" })
-    setup.OnChange = function(self, bVal) OGL_SendToServer("ogl_debug", bVal) end
-	setup:SetValue(GetConVar("ogl_debug"):GetInt())
+    setup = CPanel:AddControl ("CheckBox", { Label = "Pop sound", Command = "ogl_debugFloating" })
+    setup.OnChange = function(self, bVal) OGL_SendToServer("ogl_debugFloating", bVal) end
+	setup:SetValue(GetConVar("ogl_debugFloating"):GetInt())
 	]]
 end
 
