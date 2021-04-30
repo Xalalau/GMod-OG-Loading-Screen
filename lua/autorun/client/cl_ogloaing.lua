@@ -48,9 +48,9 @@ function Panel(CPanel)
     setup.OnChange = function(self, bVal) OGL_SendToServer("ogl_box", bVal) end
 	setup:SetValue(GetConVar("ogl_box"):GetInt())
 
-    setup = CPanel:AddControl ("CheckBox", { Label = "Pop sound", Command = "ogl_audio" })
-    setup.OnChange = function(self, bVal) OGL_SendToServer("ogl_audio", bVal) end
-	setup:SetValue(GetConVar("ogl_audio"):GetInt())
+    setup = CPanel:AddControl ("CheckBox", { Label = "Pop sound", Command = "ogl_boxAudio" })
+    setup.OnChange = function(self, bVal) OGL_SendToServer("ogl_boxAudio", bVal) end
+	setup:SetValue(GetConVar("ogl_boxAudio"):GetInt())
 
     setup = CPanel:AddControl ("Slider"  , { Label = "Lines", Type = "int", Min = "1", Max = "15", Command = "ogl_boxLines"})
 	setup.OnValueChanged = function(self, val) OGL_SendToServer_Slider("ogl_boxLines", val) end
