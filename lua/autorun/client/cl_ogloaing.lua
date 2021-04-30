@@ -81,7 +81,7 @@ function Panel(CPanel)
 
 	setup = CPanel:AddControl ("TextBox"  , { Label = "Main Image URL" })
 	local textInit = false
-	setup.OnEnter = function(self, val)
+	setup.OnValueChange = function(self, val)
 		if not textInit then return end
 		val = string.Replace(val, "http://", "_1_")
 		val = string.Replace(val, "https://", "_2_")
