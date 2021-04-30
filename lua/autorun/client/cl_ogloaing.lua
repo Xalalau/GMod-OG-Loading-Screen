@@ -110,6 +110,7 @@ function Panel(CPanel)
 	setup.DoClick = function()
 		gui.OpenURL(ogl_svloading .. OGL_BuildLinkArgs() .. "simulate=true")
 	end
+    CPanel:ControlHelp("If you've activated the pop sound and want to hear it, click anywhere in the simulation.")
 
 	--[[
     setup = CPanel:AddControl ("CheckBox", { Label = "Pop sound", Command = "ogl_debug" })
