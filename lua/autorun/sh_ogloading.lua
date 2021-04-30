@@ -1,4 +1,4 @@
-ogl_svloading = "https://3grng17dtqmxmsey95qy0w-on.drv.tw/gmod%20og%20loading%20screen/ogl.html"
+ogl_svloading = "https://3grng17dtqmxmsey95qy0w-on.drv.tw/gmod%20og%20loading%20screen/ogl-screen.html"
 
 olg_cvars = {
 	ogl_floating = true,
