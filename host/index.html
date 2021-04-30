@@ -95,6 +95,8 @@
 
                 // Show extra informations
                 var DEBUG = S_GET("debug") || false;
+                // Preview the loading screen
+                var SIMULATE = S_GET("simulate") || false;
             //  ------------------------------------- //
 
             var keywords = [
@@ -203,6 +205,54 @@
                 }
             }
 
+            function SimulateDownload() {
+                FilesNeeded = 200;
+                FilesTotal = FilesNeeded;
+
+                function PickRandomProperty(obj) {
+                    var result;
+                    var count = 0;
+                    for (var prop in obj)
+                        if (Math.random() < 1/++count)
+                        result = prop;
+                    if (result == "dgb") result = "generic";
+                    return result;
+                }
+
+                document.getElementById("infos").innerHTML = "Simulating Loading Screen";
+
+                function SimulateDownloadAux(time, changeExtTime, extention) {
+                    if (FilesNeeded == 0 || isNaN(FilesNeeded)) return;
+
+                    setTimeout(function () {
+                        var nextTime = 0.05 + Math.random() * 700;
+
+                        if (changeExtTime < time) {
+                            extention = PickRandomProperty(ext)
+                            changeExtTime = nextTime + 1000 + Math.random() * 3000;
+                        } else
+                            changeExtTime = changeExtTime - time
+
+                        if (FLOATING_ICONS) 
+                            SetFloatingIcon("." + extention);
+                        if (ICONS_BOX) 
+                            FileListing("." + extention);
+                        if (ICONS_BOX || FLOATING_ICONS)
+                            UpdateText("Downloading file " + FilesNeeded + "...")
+
+                        FilesNeeded--;
+                        RefreshFileBox();
+
+                        SimulateDownloadAux(nextTime, changeExtTime, extention);
+                    }, time)
+                }
+
+                SimulateDownloadAux(0.5, 0, 0);
+            }
+
+            if (SIMULATE)
+                SimulateDownload();
+
             // ----------------------------------------------------------------------------------
             // Icons Box ------------------------------------------------------------------------
 
@@ -260,9 +310,6 @@
                     var icon = "";
                     var debug = false;
                     var extension = GetExtension(filename, 3);
-
-                    if (extension == "dbg")
-                        debug = true;
 
                     if (extension in ext)
                         icon = iconFolder + ext[extension];
@@ -355,8 +402,10 @@
             }
 
             function RefreshFileBox(text) {
-                if (FilesNeeded != 0)
-                    document.getElementById("files").innerHTML = text || FilesNeeded + " files needed"; 
+                if (FilesNeeded == 0 || isNaN(FilesNeeded))
+                    FilesNeeded = "( ͡° ͜ʖ ͡°) 0";
+
+                document.getElementById("files").innerHTML = text || FilesNeeded + " files needed"; 
             }
 
             // ----------------------------------------------------------------------------------
@@ -378,9 +427,6 @@
 
             function DownloadingFile(filename) {
                 FilesNeeded--;
-
-                if (FilesNeeded == 0 || isNaN(FilesNeeded))
-                    FilesNeeded = "( ͡° ͜ʖ ͡°) 0";
 
                 RefreshFileBox();
 
@@ -420,9 +466,6 @@
 
                 if (RunningWorkshop) {
                     FilesNeeded--;
-
-                    if (FilesNeeded == 0 || isNaN(FilesNeeded))
-                        FilesNeeded = "( ͡° ͜ʖ ͡°) 0";
 
                     RefreshFileBox();
 

@@ -105,6 +105,11 @@ function Panel(CPanel)
 	setup.OnValueChanged = function(self, val) OGL_SendToServer_Slider("ogl_iconH", val) end
 	setup:SetValue(GetConVar("ogl_iconH"):GetInt())
 
+    setup = CPanel:AddControl ("Button"  , { Label = "Simulate Loading Screen" })
+	setup.DoClick = function()
+		gui.OpenURL(ogl_svloading .. OGL_BuildLinkArgs() .. "simulate=true")
+	end
+
 	--[[
     setup = CPanel:AddControl ("CheckBox", { Label = "Pop sound", Command = "ogl_debug" })
     setup.OnChange = function(self, bVal) OGL_SendToServer("ogl_debug", bVal) end

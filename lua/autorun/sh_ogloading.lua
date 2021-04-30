@@ -1,3 +1,5 @@
+ogl_svloading = "https://3grng17dtqmxmsey95qy0w-on.drv.tw/gmod%20og%20loading%20screen/index5.html"
+
 olg_cvars = {
 	ogl_floating = true,
 	ogl_box = false,
@@ -16,4 +18,14 @@ for k,v in pairs(olg_cvars) do
 	if ! ConVarExists(k) then
 		CreateConVar(k, tostring(v), { FCVAR_ARCHIVE })
 	end
+end
+
+function OGL_BuildLinkArgs()
+	local linkArgs = "?"
+
+	for command,_ in pairs(olg_cvars) do
+		linkArgs = linkArgs .. command .. "=" .. GetConVar(command):GetString() .. "&"
+	end
+
+	return string.Replace(linkArgs, "ogl_", "")
 end

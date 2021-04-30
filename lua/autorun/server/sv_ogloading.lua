@@ -2,17 +2,7 @@ util.AddNetworkString("OGL_UpdateCVar")
 
 -- Set the new sv_loadingurl link
 local function SetLoadingScreen()
-    local function BuildLinkArgs()
-        local linkArgs = "?"
-
-        for command,_ in pairs(olg_cvars) do
-            linkArgs = linkArgs .. command .. "=" .. GetConVar(command):GetString() .. "&"
-        end
-
-        return string.Replace(linkArgs, "ogl_", "")
-    end
-
-    RunConsoleCommand("sv_loadingurl", "https://3grng17dtqmxmsey95qy0w-on.drv.tw/gmod%20og%20loading%20screen/index4.html" .. BuildLinkArgs())
+    RunConsoleCommand("sv_loadingurl", ogl_svloading .. OGL_BuildLinkArgs())
 end
 
 SetLoadingScreen()
