@@ -24,9 +24,9 @@ Like this:
 sv_loadingurl "https://mysite.com/host/index.html?img=&floating=1&box=0&boxLines=1&boxIconsPerLine=60&boxAudio=false&messages=18&randMsgSecs=15&iconH=16&iconW=16"
 ```
 
-"img=" requires requires links to be changed a bit. "/" turns into "(47)", "http://" into "``_1_``" and "https://" into "``_2_``".
+"img=" requires requires links to be changed a bit. ``/`` turns into ``(47)``, ``http://`` into ``_1_`` and ``https://`` into ``_2_``.
 
-e.g. "https://i.imgur.com/EHU3ebQ.png" turns into "``_2_``i.imgur.com(47)EHU3ebQ.png"
+e.g. ``https://i.imgur.com/EHU3ebQ.png`` turns into ``_2_i.imgur.com(47)EHU3ebQ.png``.
 
 As a final note I'd like to recommend that you rename the **html** file to **php**. This will avoid caching problems as you make updates.
 
