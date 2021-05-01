@@ -21,7 +21,7 @@ You can control the screen features by using the full link.
 Like this:
 
 ```
-+sv_loadingurl "https://mysite.com/host/index.html?img=&floating=1&box=0&boxLines=1&boxIconsPerLine=60&boxAudio=false&messages=18&randMsgSecs=15&iconH=16&iconW=16"
+sv_loadingurl "https://mysite.com/host/index.html?img=&floating=1&box=0&boxLines=1&boxIconsPerLine=60&boxAudio=false&messages=18&randMsgSecs=15&iconH=16&iconW=16"
 ```
 
 "img=" requires requires links to be changed a bit. "/" turns into "(47)", "http://" into "``_1_``" and "https://" into "``_2_``".
