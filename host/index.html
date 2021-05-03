@@ -68,7 +68,7 @@
                 // Icons poping in a box
                 var ICONS_BOX = S_GET("box"); // Def. false
                 // Number of icons per line
-                var ICONS_PER_LINE = S_GET("boxIconsPerLine"); // Def. 30
+                var ROWS = S_GET("boxIconsPerLine"); // Def. 30
                 // Number of lines
                 var LINES = S_GET("boxLines"); // Def. 7
                 // Plays audio when a download starts
@@ -181,7 +181,7 @@
 
             var time = 0;
 
-            var iconArray = "";
+            var iconArray = [];
             var iconIncrement = 0;
 
             var FilesNeeded;
@@ -258,7 +258,9 @@
 
             if (ICONS_BOX) {
                 document.getElementById("icons_box").style.height = ICONS_HEIGHT * LINES + LINES + 'px';
-                document.getElementById("icons_box").style.width = ICONS_WIDTH * ICONS_PER_LINE + ICONS_PER_LINE * 2 + 'px';
+                document.getElementById("icons_box").style.width = ICONS_WIDTH * ROWS + ROWS * 2 + 'px';
+
+                var iconLimit = LINES * ROWS;
 
                 function FileListing(filename) {
                     var icon = "";
@@ -270,15 +272,22 @@
                     else
                         icon = iconFolder + ext["generic"];
 
-                    iconArray = '<img id="' + iconID + '" style="float: left; width: ' + ICONS_WIDTH + 'px; height: ' + ICONS_HEIGHT + 'px; padding: 1px 2px 0 0;" src="' + icon + '"/>' + iconArray;
+                    if (iconIncrement >= iconLimit)
+                        iconArray.shift();
 
-                    document.getElementById("icons").innerHTML = iconArray;
+                    iconArray.push('<img id="' + iconID + '" style="float: left; width: ' + ICONS_WIDTH + 'px; height: ' + ICONS_HEIGHT + 'px; padding: 1px 2px 0 0;" src="' + icon + '"/>');
+
+                    var iconsCount = (iconIncrement >= iconLimit) ? iconLimit - 1 : iconIncrement;
+                    var currentIcons = "";
+                    for (var i = 0; i <= iconsCount; i++)
+                        currentIcons = iconArray[i] + currentIcons;
+
+                    document.getElementById("icons").innerHTML = currentIcons;
 
                     document.getElementById(iconID).style.height = '0px';
                     document.getElementById(iconID).style.width = '0px';
+                    $("#" + iconID).animate({ height: ICONS_HEIGHT + "px", width: ICONS_WIDTH + "px" });
 
-                    $("#" + iconID).animate({height: ICONS_HEIGHT + "px", width: ICONS_WIDTH + "px"});
-                    
                     iconIncrement++;
 
                     if (AUDIO) {
@@ -355,8 +364,10 @@
                             if (Downloading == filename) {
                                 startTime = GetCurrentTime();
                                 endTime = startTime + speed * 0.5;
-                            } else
+                            } else {
                                 clearInterval(timer);
+                                iconElement.remove();
+                            }
                         }
                     }, 0.1)
                 }
