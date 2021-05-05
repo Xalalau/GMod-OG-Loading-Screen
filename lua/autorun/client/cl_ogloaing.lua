@@ -43,7 +43,11 @@ end
 -- Build menu
 local window
 local function BuildPanel(CPanel)
-    if not checkAdmin() then return end
+    if not checkAdmin() then
+        print("Admin only.")
+
+        return
+    end
 
     if not window then
         local topBar, border = 25, 5
