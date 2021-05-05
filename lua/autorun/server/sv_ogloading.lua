@@ -2,7 +2,16 @@ util.AddNetworkString("OGL_UpdateCVar")
 
 -- Set the new sv_loadingurl link
 local function SetLoadingScreen()
-    RunConsoleCommand("sv_loadingurl", ogl_svloading .. OGL_BuildLinkArgs())
+    local command = ogl_svloading .. OGL_BuildLinkArgs()
+    local comSize = string.len(command)
+
+    if string.len(command) > 494 then
+        local warning = "WARNING! sv_loadingurl is too big! Max size is 494, yours is " .. comSize .. ". Shorten your image links." 
+        print(warning)
+        PrintMessage(HUD_PRINTTALK, warning)
+    else
+        RunConsoleCommand("sv_loadingurl", ogl_svloading .. OGL_BuildLinkArgs())
+    end
 end
 
 SetLoadingScreen()
