@@ -34,7 +34,7 @@ function OGL_BuildLinkArgs()
 
     for command,_ in pairs(olg_cvars) do
         local value = GetConVar(command):GetString()
-        value = value != "0" and value or "false"
+        if value == "0" or value == "false" then continue end
         value = value == "true" and "1" or value
         linkArgs = linkArgs .. command .. "=" .. value .. "&"
     end
