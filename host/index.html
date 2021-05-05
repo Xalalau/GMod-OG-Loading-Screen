@@ -2,8 +2,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     </head>
-    <body style='overflow: hidden; background-color: #FFFFFF;'>
-        <div style='text-align: center; top: 0px; left: 0px; right: 0px; height: 50px; overflow: show; font-family: Arial; font-size: 24px; font-weight: bold; color: #000' id='infos'>
+    <body style='overflow: hidden;'>
+        <div style='text-align: center; top: 0px; left: 0px; right: 0px; height: 50px; overflow: show; font-family: Arial; font-size: 24px; font-weight: bold;' id='infos'>
         </div>
 
         <div style='text-align: center; top: 40px; left: 0px; right: 0px; height: 50px; overflow: show; font-family: Arial; font-size: 24px; font-weight: bold; color: #888' id='files'>
@@ -32,6 +32,9 @@
 
         <script type="text/javascript">
             //  ------------------------------------- //
+                // _GET Section Start
+
+                // Get parameters from link
                 function S_GET(parameterName) {
                     var result = null,
                     tmp = [];
@@ -39,64 +42,81 @@
                     location.search.substr(1).split("&").forEach(function (item) {
                         tmp = item.split("=");
                         
-                        if (tmp[0] === parameterName) {
+                        if (tmp[0] === parameterName)
                             result = decodeURIComponent(tmp[1]);
-                            
-                            if (parameterName == "img")
-                                ;
-                            else if (result == "false")
-                                result = null;
-                            else if (result != "true")
-                                result = Number(result);
-                        }
                     });
 
+                    if (result == "false" || ! result)
+                        result = false;
+
                     return result;
+                }
+
+                // Transform a tool link back to normal
+                function unpackLink(link) {
+                    link = link.replaceAll("(47)", "/");
+                    link = link.replace("_1_", "http://");
+                    link = link.replace("_2_", "https://");
+                    
+                    return link;
                 }
 
                 // Floating Icons:
                 // ------------
 
                 // Floating icons
-                var FLOATING_ICONS = S_GET("floating"); // Def. true
+                var FLOATING_ICONS = S_GET("floating");
                 // Show extra informations
-                var DEBUG_FLOATING = S_GET("debugFloating") || false;
+                var DEBUG_FLOATING = S_GET("debugFloating");
 
                 // Icons Box:
                 // ------------
 
                 // Icons poping in a box
-                var ICONS_BOX = S_GET("box"); // Def. false
+                var ICONS_BOX = S_GET("box");
                 // Number of icons per line
-                var ROWS = S_GET("boxIconsPerLine"); // Def. 30
+                var ROWS = Number(S_GET("boxIconsPerLine") || 0);
                 // Number of lines
-                var LINES = S_GET("boxLines"); // Def. 7
+                var LINES = Number(S_GET("boxLines") || 0);
                 // Plays audio when a download starts
-                var AUDIO = S_GET("boxAudio"); // Def. true
+                var AUDIO = S_GET("boxAudio");
 
                 // Messages:
                 // ------------
 
                 // Number of messages that we can see bellow the GMod logo 
-                var MESSAGES = S_GET("messages"); // Def. 18
+                var MESSAGES = Number(S_GET("messages") || 0);
                 // Random messages will appear after this time, but it allways goes back to 0 when a new download starts
-                var SECONDS_FOR_RANDOM_MESSAGES = S_GET("randMsgSecs"); // Def. 15
+                var SECONDS_FOR_RANDOM_MESSAGES = Number(S_GET("randMsgSecs") || 1);
+
+                // Background:
+                // ------------
+
+                // Dark mode
+                var DARK_MODE = S_GET("bkDark");
+                // CSS background Properties
+                var BK_IMAGE = unpackLink(String(S_GET("bkImage") || "#"));
+                var BK_POSITION = String(S_GET("bkPosition") || "");
+                BK_POSITION = BK_POSITION.replace("_", " ");
+                var BK_SIZE = String(S_GET("bkSize") || "");
+                var BK_REPEAT = String(S_GET("bkRepeat") || "");
+                var BK_COLOR_R = Number(S_GET("bkColorR") || 0);
+                var BK_COLOR_G = Number(S_GET("bkColorG") || 0);
+                var BK_COLOR_B = Number(S_GET("bkColorB") || 0);
 
                 // General:
                 // ------------
 
                 // Logo
-                var LOGO = String(S_GET("logo")); // Def. loading.png
-                LOGO = LOGO.replace("(47)", "/");
-                LOGO = LOGO.replace("_1_", "http://");
-                LOGO = LOGO.replace("_2_", "https://");
-                LOGO = ( !LOGO || LOGO == "null" || LOGO == "") ? "loading.png" : LOGO;
+                var LOGO = unpackLink(String(S_GET("logo") || "loading.png"));
                 // Icons Width x Height
-                var ICONS_WIDTH = S_GET("iconW") || 16;
-                var ICONS_HEIGHT = S_GET("iconH") || 16;
+                var ICONS_WIDTH = Number(S_GET("iconW") || 16);
+                var ICONS_HEIGHT = Number(S_GET("iconH") || 16);
 
                 // Preview the loading screen
-                var SIMULATE = S_GET("simulate") || false;
+                var SIMULATE = S_GET("simulate");
+
+                // _GET Section End
             //  ------------------------------------- //
 
             var keywords = [
@@ -190,9 +210,22 @@
             var Downloading = false;
 
             // ----------------------------------------------------------------------------------
-            // General --------------------------------------------------------------------------
-            
+            // Title ---------------------------------------------------------------------------- 
+
+            document.getElementById("infos").style.color = DARK_MODE && "#fff" || "#000";
+
+            // ----------------------------------------------------------------------------------
+            // Logo -----------------------------------------------------------------------------
+
             document.getElementById("mainimage").src = LOGO;
+
+            // ----------------------------------------------------------------------------------
+            // Background -----------------------------------------------------------------------
+
+            document.body.style.background = "rgb(" + BK_COLOR_R + "," + BK_COLOR_G + "," + BK_COLOR_B + ") url('" + BK_IMAGE + "') " + BK_POSITION + "/" + BK_SIZE + " " + BK_REPEAT;
+
+            // ----------------------------------------------------------------------------------
+            // Simulator ------------------------------------------------------------------------
 
             function GetExtension(str, n) {
                 if (n <= 0)
@@ -386,12 +419,14 @@
                 msg.push(text);
 
                 var str = "";
-                var limit = Math.max(msg.length - MESSAGES, 0)
-                var opacity = Math.min(msg.length, MESSAGES)
+                var limit = Math.max(msg.length - MESSAGES, 0);
+                var baseColor = 'hsl(0, 0%,' + (DARK_MODE && 100 || 0) + '%)';
 
+                var j = 0;
                 for (var i = msg.length; i >= limit; i--) {
                     if ( ! msg[i]) continue;
-                    str = str + '<span style="color: ' + 'hsl(0, 0%,' + 100 * (1 / opacity) * (opacity - (i - limit)) + '%)' + ';">' + msg[i] + '</span><br/>';
+                    str = str + '<span style="color: ' + baseColor + '; opacity: '+ (1 - j/MESSAGES) + ';">' + msg[i] + '</span><br/>';
+                    j++;
                 }
 
                 document.getElementById("loadingtext").innerHTML = str;

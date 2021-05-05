@@ -1,4 +1,4 @@
-ogl_svloading = "https://3grng17dtqmxmsey95qy0w-on.drv.tw/gmod%20og%20loading%20screen/ogl-screen.html"
+ogl_svloading = "https://3grng17dtqmxmsey95qy0w-on.drv.tw/gmod%20og%20loading%20screen/oglscreen2.html"
 
 olg_cvars = {
     ogl_floating = true,
@@ -8,7 +8,15 @@ olg_cvars = {
     ogl_boxLines = 1,
     ogl_messages = 18,
     ogl_randMsgSecs = 15,
-    ogl_img = "",
+    ogl_bkDark = false,
+    ogl_bkColorR = "255",
+    ogl_bkColorG = "255",
+    ogl_bkColorB = "255",
+    ogl_bkImage = "",
+    ogl_bkPosition = "center_center",
+    ogl_bkSize = "contain",
+    ogl_bkRepeat = "no-repeat",
+    ogl_logo = "",
     ogl_iconW = 16,
     ogl_iconH = 16,
     --ogl_debugFloating = false
@@ -24,7 +32,9 @@ function OGL_BuildLinkArgs()
     local linkArgs = "?"
 
     for command,_ in pairs(olg_cvars) do
-        linkArgs = linkArgs .. command .. "=" .. GetConVar(command):GetString() .. "&"
+        local value = GetConVar(command):GetString()
+        value = value != "0" and value or "false"
+        linkArgs = linkArgs .. command .. "=" .. value .. "&"
     end
 
     return string.Replace(linkArgs, "ogl_", "")

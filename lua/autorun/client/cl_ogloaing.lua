@@ -24,6 +24,22 @@ local function checkAdmin()
     return false
 end
 
+local function packLink(link)
+    link = string.Replace(link, "http://", "_1_")
+    link = string.Replace(link, "https://", "_2_")
+    link = string.Replace(link, "/", "(47)")
+    link = string.Replace(link, " ", "")
+    return link
+end
+
+local function unpackLink(packedLink)
+    local link
+    link = string.Replace(packedLink, "_1_", "http://")
+    link = string.Replace(link, "_2_", "https://")
+    link = string.Replace(link, "(47)", "/")
+    return link
+end
+
 -- Build menu
 local window
 local function BuildPanel(CPanel)
@@ -92,9 +108,93 @@ local function BuildPanel(CPanel)
         setup = OGPNL:AddControl(pnl, "Slider"  , { Label = "Amount", Type = "int", Min = "0", Max = "25", Command = "ogl_messages"})
         setup.OnValueChanged = function(self, val) OGL_SendToServer_Slider("ogl_messages", val) end
 
-        setup = OGPNL:AddControl(pnl, "Slider"  , { Label = "Random Msgs Delay", Type = "int", Min = "0", Max = "25", Command = "ogl_randMsgSecs"})
+        setup = OGPNL:AddControl(pnl, "Slider"  , { Label = "Random Msgs Delay", Type = "int", Min = "1", Max = "25", Command = "ogl_randMsgSecs"})
         setup.OnValueChanged = function(self, val) OGL_SendToServer_Slider("ogl_randMsgSecs", val) end
         OGPNL:ControlHelp(pnl, "The time it takes for a random message to appear if nothing is happening.")
+
+        OGPNL:Help(pnl, "")
+
+        setup = vgui.Create("DCollapsibleCategory", pnl)
+        setup:SetLabel("Background")
+        setup:Dock(TOP)
+
+        setup = OGPNL:AddControl(pnl, "CheckBox", { Label = "Dark Mode", Command = "ogl_bkDark" })
+        setup.OnChange = function(self, bVal) OGL_SendToServer("ogl_bkDark", bVal) end
+
+        setup = OGPNL:AddControl(pnl, "Color", { Label = "Color", red = "ogl_bkColorR", green = "ogl_bkColorG", blue = "ogl_bkColorB" })
+        setup.Mixer.ValueChanged = function(self, col)
+            OGL_SendToServer("ogl_bkColorR", col.r)
+            OGL_SendToServer("ogl_bkColorG", col.g)
+            OGL_SendToServer("ogl_bkColorB", col.b)
+        end
+
+        setup = OGPNL:AddControl(pnl, "TextBox"  , { Label = "Background URL" })
+        setup:SetUpdateOnType(true)
+        setup:SetText(unpackLink(GetConVar("ogl_bkImage"):GetString()))
+        setup.OnValueChange = function(self, val)
+            val = packLink(val)
+            RunConsoleCommand("ogl_bkImage", val)
+            OGL_SendToServer("ogl_bkImage", val)
+        end
+        OGPNL:ControlHelp(pnl, "e.g. https://i.imgur.com/Ld56Sap.png")
+
+        local posOptions = {
+            ["Left Top"] = "left_top",
+            ["Left Center"] = "left_center",
+            ["Left Bottom"] = "left_bottom",
+            ["Right Top"] = "right_top",
+            ["Right Center"] = "right_center",
+            ["Right Bottom"] = "right_bottom",
+            ["Center Top"] = "center_top",
+            ["Center Center"] = "center_center",
+            ["Center Bottom"] = "center_bottom",
+        }
+        setup = OGPNL:AddControl(pnl, "ComboBox", { Command = "ogl_bkPosition", Label = "Position" })
+        local curentBkPosition = GetConVar("ogl_bkPosition"):GetString()
+        for k,v in pairs(posOptions) do
+            if v == curentBkPosition then curentBkPosition = k end
+            setup:AddChoice(k, v)
+        end
+        setup:SetValue(curentBkPosition)
+        setup.OnSelect = function(self, index, text, data)
+            RunConsoleCommand("ogl_bkPosition", data)
+            OGL_SendToServer("ogl_bkPosition", data)
+        end
+
+        local sizeOptions = {
+            ["Original"] = "auto",
+            ["Stretch"] = "cover",
+            ["Fully Visible"] = "contain",
+        }
+        setup = OGPNL:AddControl(pnl, "ComboBox", { Command = "ogl_bkSize", Label = "Size" })
+        local curentBkSize = GetConVar("ogl_bkSize"):GetString()
+        for k,v in pairs(sizeOptions) do
+            if v == curentBkSize then curentBkSize = k end
+            setup:AddChoice(k, v)
+        end
+        setup:SetValue(curentBkSize)
+        setup.OnSelect = function(self, index, text, data)
+            RunConsoleCommand("ogl_bkSize", data)
+            OGL_SendToServer("ogl_bkSize", data)
+        end
+
+        local repeatOptions = {
+            ["No"] = "no-repeat",
+            ["Horizontal"] = "repeat-x",
+            ["Vertical"] = "repeat-y",
+            ["Horizontal / Vertical"] = "repeat",
+        }
+        setup = OGPNL:AddControl(pnl, "ComboBox", { Command = "ogl_bkRepeat", Label = "Repeat" })
+        local curentBkRepeat = GetConVar("ogl_bkRepeat"):GetString()
+        for k,v in pairs(repeatOptions) do
+            if v == curentBkRepeat then curentBkRepeat = k end
+            setup:AddChoice(k, v)
+        end
+        setup:SetValue(curentBkRepeat)
+        setup.OnSelect = function(self, index, text, data)
+            RunConsoleCommand("ogl_bkRepeat", data)
+            OGL_SendToServer("ogl_bkRepeat", data)
+        end
 
         OGPNL:Help(pnl, "")
 
@@ -102,23 +202,14 @@ local function BuildPanel(CPanel)
         setup:SetLabel("General")
         setup:Dock(TOP)
 
-        setup = OGPNL:AddControl(pnl, "TextBox"  , { Label = "Main Image URL" })
-        local textInit = false
+        setup = OGPNL:AddControl(pnl, "TextBox"  , { Label = "Logo URL" })
+        setup:SetUpdateOnType(true)
+        setup:SetText(unpackLink(GetConVar("ogl_logo"):GetString()))
         setup.OnValueChange = function(self, val)
-            if not textInit then return end
-            val = string.Replace(val, "http://", "_1_")
-            val = string.Replace(val, "https://", "_2_")
-            val = string.Replace(val, "/", "(47)")
-            val = string.Replace(val, " ", "")
-            RunConsoleCommand("ogl_img", val)
-            OGL_SendToServer("ogl_img", val)
+            val = packLink(val)
+            RunConsoleCommand("ogl_logo", val)
+            OGL_SendToServer("ogl_logo", val)
         end
-        local command = GetConVar("ogl_img"):GetString()
-        command = string.Replace(command, "_1_", "http://")
-        command = string.Replace(command, "_2_", "https://")
-        command = string.Replace(command, "(47)", "/")
-        setup:SetText(command)
-        timer.Simple(1, function() textInit = true end)
         OGPNL:ControlHelp(pnl, "e.g. https://i.imgur.com/PypI0Rp.png")
 
         setup = OGPNL:AddControl(pnl, "Slider"  , { Label = "Icon Width", Type = "int", Min = "1", Max = "64", Command = "ogl_iconW"})
