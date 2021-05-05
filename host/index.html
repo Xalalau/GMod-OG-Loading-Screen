@@ -53,7 +53,7 @@
                 }
 
                 // Transform a tool link back to normal
-                function unpackLink(link) {
+                function UnpackLink(link) {
                     link = link.replaceAll("(47)", "/");
                     link = link.replace("_1_", "http://");
                     link = link.replace("_2_", "https://");
@@ -95,7 +95,7 @@
                 // Dark mode
                 var DARK_MODE = S_GET("bkDark");
                 // CSS background Properties
-                var BK_IMAGE = unpackLink(String(S_GET("bkImage") || "#"));
+                var BK_IMAGE = UnpackLink(String(S_GET("bkImage") || "#"));
                 var BK_POSITION = String(S_GET("bkPosition") || "");
                 BK_POSITION = BK_POSITION.replace("_", " ");
                 var BK_SIZE = String(S_GET("bkSize") || "");
@@ -108,7 +108,7 @@
                 // ------------
 
                 // Logo
-                var LOGO = unpackLink(String(S_GET("logo") || "loading.png"));
+                var LOGO = UnpackLink(String(S_GET("logo") || "loading.png"));
                 // Icons Width x Height
                 var ICONS_WIDTH = Number(S_GET("iconW") || 16);
                 var ICONS_HEIGHT = Number(S_GET("iconH") || 16);
