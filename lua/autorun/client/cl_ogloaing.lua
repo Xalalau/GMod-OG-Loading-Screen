@@ -82,8 +82,8 @@ local function BuildPanel(CPanel)
         setup:SetLabel("Floating Icons")
         setup:Dock(TOP)
 
-        setup = OGPNL:AddControl(pnl, "CheckBox", { Label = "Enable", Command = "ogl_floating" })
-        setup.OnChange = function(self, bVal) OGL_SendToServer("ogl_floating", bVal) end
+        setup = OGPNL:AddControl(pnl, "CheckBox", { Label = "Enable", Command = "ogl_f" })
+        setup.OnChange = function(self, bVal) OGL_SendToServer("ogl_f", bVal) end
 
         OGPNL:Help(pnl, "")
 
@@ -91,17 +91,17 @@ local function BuildPanel(CPanel)
         setup:SetLabel("Icons Box")
         setup:Dock(TOP)
 
-        setup = OGPNL:AddControl(pnl, "CheckBox", { Label = "Enable", Command = "ogl_box" })
-        setup.OnChange = function(self, bVal) OGL_SendToServer("ogl_box", bVal) end
+        setup = OGPNL:AddControl(pnl, "CheckBox", { Label = "Enable", Command = "ogl_b" })
+        setup.OnChange = function(self, bVal) OGL_SendToServer("ogl_b", bVal) end
 
-        setup = OGPNL:AddControl(pnl, "CheckBox", { Label = "Pop sound", Command = "ogl_boxAudio" })
-        setup.OnChange = function(self, bVal) OGL_SendToServer("ogl_boxAudio", bVal) end
+        setup = OGPNL:AddControl(pnl, "CheckBox", { Label = "Pop sound", Command = "ogl_bS" })
+        setup.OnChange = function(self, bVal) OGL_SendToServer("ogl_bS", bVal) end
 
-        setup = OGPNL:AddControl(pnl, "Slider"  , { Label = "Lines", Type = "int", Min = "1", Max = "15", Command = "ogl_boxLines"})
-        setup.OnValueChanged = function(self, val) OGL_SendToServer_Slider("ogl_boxLines", val) end
+        setup = OGPNL:AddControl(pnl, "Slider"  , { Label = "Lines", Type = "int", Min = "1", Max = "15", Command = "ogl_bL"})
+        setup.OnValueChanged = function(self, val) OGL_SendToServer_Slider("ogl_bL", val) end
 
-        setup = OGPNL:AddControl(pnl, "Slider"  , { Label = "Icons Per Line", Type = "int", Min = "1", Max = "70", Command = "ogl_boxIconsPerLine"})
-        setup.OnValueChanged = function(self, val) OGL_SendToServer_Slider("ogl_boxIconsPerLine", val) end
+        setup = OGPNL:AddControl(pnl, "Slider"  , { Label = "Rows", Type = "int", Min = "1", Max = "70", Command = "ogl_bR"})
+        setup.OnValueChanged = function(self, val) OGL_SendToServer_Slider("ogl_bR", val) end
 
         OGPNL:Help(pnl, "")
 
@@ -109,11 +109,11 @@ local function BuildPanel(CPanel)
         setup:SetLabel("Messages")
         setup:Dock(TOP)
 
-        setup = OGPNL:AddControl(pnl, "Slider"  , { Label = "Amount", Type = "int", Min = "0", Max = "25", Command = "ogl_messages"})
-        setup.OnValueChanged = function(self, val) OGL_SendToServer_Slider("ogl_messages", val) end
+        setup = OGPNL:AddControl(pnl, "Slider"  , { Label = "Amount", Type = "int", Min = "0", Max = "25", Command = "ogl_m"})
+        setup.OnValueChanged = function(self, val) OGL_SendToServer_Slider("ogl_m", val) end
 
-        setup = OGPNL:AddControl(pnl, "Slider"  , { Label = "Random Msgs Delay", Type = "int", Min = "1", Max = "25", Command = "ogl_randMsgSecs"})
-        setup.OnValueChanged = function(self, val) OGL_SendToServer_Slider("ogl_randMsgSecs", val) end
+        setup = OGPNL:AddControl(pnl, "Slider"  , { Label = "Random Msgs Delay", Type = "int", Min = "1", Max = "25", Command = "ogl_rMD"})
+        setup.OnValueChanged = function(self, val) OGL_SendToServer_Slider("ogl_rMD", val) end
         OGPNL:ControlHelp(pnl, "The time it takes for a random message to appear if nothing is happening.")
 
         OGPNL:Help(pnl, "")
@@ -122,82 +122,82 @@ local function BuildPanel(CPanel)
         setup:SetLabel("Background")
         setup:Dock(TOP)
 
-        setup = OGPNL:AddControl(pnl, "CheckBox", { Label = "Dark Mode", Command = "ogl_bkDark" })
-        setup.OnChange = function(self, bVal) OGL_SendToServer("ogl_bkDark", bVal) end
+        setup = OGPNL:AddControl(pnl, "CheckBox", { Label = "Dark Mode", Command = "ogl_bkD" })
+        setup.OnChange = function(self, bVal) OGL_SendToServer("ogl_bkD", bVal) end
 
-        setup = OGPNL:AddControl(pnl, "Color", { Label = "Color", red = "ogl_bkColorR", green = "ogl_bkColorG", blue = "ogl_bkColorB" })
+        setup = OGPNL:AddControl(pnl, "Color", { Label = "Color", red = "ogl_bkR", green = "ogl_bkG", blue = "ogl_bkB" })
         setup.Mixer.ValueChanged = function(self, col)
-            OGL_SendToServer("ogl_bkColorR", col.r)
-            OGL_SendToServer("ogl_bkColorG", col.g)
-            OGL_SendToServer("ogl_bkColorB", col.b)
+            OGL_SendToServer("ogl_bkR", col.r)
+            OGL_SendToServer("ogl_bkG", col.g)
+            OGL_SendToServer("ogl_bkB", col.b)
         end
 
         setup = OGPNL:AddControl(pnl, "TextBox"  , { Label = "Background URL" })
         setup:SetUpdateOnType(true)
-        setup:SetText(unpackLink(GetConVar("ogl_bkImage"):GetString()))
+        setup:SetText(unpackLink(GetConVar("ogl_bkI"):GetString()))
         setup.OnValueChange = function(self, val)
             val = packLink(val)
-            RunConsoleCommand("ogl_bkImage", val)
-            OGL_SendToServer("ogl_bkImage", val)
+            RunConsoleCommand("ogl_bkI", val)
+            OGL_SendToServer("ogl_bkI", val)
         end
         OGPNL:ControlHelp(pnl, "e.g. https://i.imgur.com/Ld56Sap.png")
 
         local posOptions = {
-            ["Left Top"] = "left_top",
-            ["Left Center"] = "left_center",
-            ["Left Bottom"] = "left_bottom",
-            ["Right Top"] = "right_top",
-            ["Right Center"] = "right_center",
-            ["Right Bottom"] = "right_bottom",
-            ["Center Top"] = "center_top",
-            ["Center Center"] = "center_center",
-            ["Center Bottom"] = "center_bottom",
+            ["Left Top"] = "lt",
+            ["Left Center"] = "lc",
+            ["Left Bottom"] = "lb",
+            ["Right Top"] = "rt",
+            ["Right Center"] = "rc",
+            ["Right Bottom"] = "rb",
+            ["Center Top"] = "ct",
+            ["Center Center"] = "cc",
+            ["Center Bottom"] = "cb",
         }
-        setup = OGPNL:AddControl(pnl, "ComboBox", { Command = "ogl_bkPosition", Label = "Position" })
-        local curentBkPosition = GetConVar("ogl_bkPosition"):GetString()
+        setup = OGPNL:AddControl(pnl, "ComboBox", { Command = "ogl_bkP", Label = "Position" })
+        local curentBkPosition = GetConVar("ogl_bkP"):GetString()
         for k,v in pairs(posOptions) do
             if v == curentBkPosition then curentBkPosition = k end
             setup:AddChoice(k, v)
         end
         setup:SetValue(curentBkPosition)
         setup.OnSelect = function(self, index, text, data)
-            RunConsoleCommand("ogl_bkPosition", data)
-            OGL_SendToServer("ogl_bkPosition", data)
+            RunConsoleCommand("ogl_bkP", data)
+            OGL_SendToServer("ogl_bkP", data)
         end
 
         local sizeOptions = {
-            ["Original"] = "auto",
-            ["Stretch"] = "cover",
-            ["Fully Visible"] = "contain",
+            ["Original"] = "a", -- auto
+            ["Stretch"] = "cv", -- cover
+            ["Fully Visible"] = "ct", -- contain
         }
-        setup = OGPNL:AddControl(pnl, "ComboBox", { Command = "ogl_bkSize", Label = "Size" })
-        local curentBkSize = GetConVar("ogl_bkSize"):GetString()
+        setup = OGPNL:AddControl(pnl, "ComboBox", { Command = "ogl_bkS", Label = "Size" })
+        local curentBkSize = GetConVar("ogl_bkS"):GetString()
         for k,v in pairs(sizeOptions) do
             if v == curentBkSize then curentBkSize = k end
             setup:AddChoice(k, v)
         end
         setup:SetValue(curentBkSize)
         setup.OnSelect = function(self, index, text, data)
-            RunConsoleCommand("ogl_bkSize", data)
-            OGL_SendToServer("ogl_bkSize", data)
+            RunConsoleCommand("ogl_bkS", data)
+            OGL_SendToServer("ogl_bkS", data)
         end
 
         local repeatOptions = {
-            ["No"] = "no-repeat",
-            ["Horizontal"] = "repeat-x",
-            ["Vertical"] = "repeat-y",
-            ["Horizontal / Vertical"] = "repeat",
+            ["No"] = "n", -- no-repeat
+            ["Horizontal"] = "x", -- repeat-x
+            ["Vertical"] = "y", -- repeat-y
+            ["Horizontal / Vertical"] = "r", -- repeat
         }
-        setup = OGPNL:AddControl(pnl, "ComboBox", { Command = "ogl_bkRepeat", Label = "Repeat" })
-        local curentBkRepeat = GetConVar("ogl_bkRepeat"):GetString()
+        setup = OGPNL:AddControl(pnl, "ComboBox", { Command = "ogl_bkRe", Label = "Repeat" })
+        local curentBkRepeat = GetConVar("ogl_bkRe"):GetString()
         for k,v in pairs(repeatOptions) do
             if v == curentBkRepeat then curentBkRepeat = k end
             setup:AddChoice(k, v)
         end
         setup:SetValue(curentBkRepeat)
         setup.OnSelect = function(self, index, text, data)
-            RunConsoleCommand("ogl_bkRepeat", data)
-            OGL_SendToServer("ogl_bkRepeat", data)
+            RunConsoleCommand("ogl_bkRe", data)
+            OGL_SendToServer("ogl_bkRe", data)
         end
 
         OGPNL:Help(pnl, "")
@@ -206,32 +206,32 @@ local function BuildPanel(CPanel)
         setup:SetLabel("General")
         setup:Dock(TOP)
 
-        setup = OGPNL:AddControl(pnl, "TextBox"  , { Label = "Logo URL" })
+        setup = OGPNL:AddControl(pnl, "TextBox", { Label = "Logo URL" })
         setup:SetUpdateOnType(true)
-        setup:SetText(unpackLink(GetConVar("ogl_logo"):GetString()))
+        setup:SetText(unpackLink(GetConVar("ogl_l"):GetString()))
         setup.OnValueChange = function(self, val)
             val = packLink(val)
-            RunConsoleCommand("ogl_logo", val)
-            OGL_SendToServer("ogl_logo", val)
+            RunConsoleCommand("ogl_l", val)
+            OGL_SendToServer("ogl_l", val)
         end
         OGPNL:ControlHelp(pnl, "e.g. https://i.imgur.com/PypI0Rp.png")
 
-        setup = OGPNL:AddControl(pnl, "Slider"  , { Label = "Icon Width", Type = "int", Min = "1", Max = "64", Command = "ogl_iconW"})
-        setup.OnValueChanged = function(self, val) OGL_SendToServer_Slider("ogl_iconW", val) end
+        setup = OGPNL:AddControl(pnl, "Slider"  , { Label = "Icon Width", Type = "int", Min = "1", Max = "64", Command = "ogl_iW"})
+        setup.OnValueChanged = function(self, val) OGL_SendToServer_Slider("ogl_iW", val) end
 
-        setup = OGPNL:AddControl(pnl, "Slider"  , { Label = "Icon Height", Type = "int", Min = "1", Max = "64", Command = "ogl_iconH"})
-        setup.OnValueChanged = function(self, val) OGL_SendToServer_Slider("ogl_iconH", val) end
+        setup = OGPNL:AddControl(pnl, "Slider"  , { Label = "Icon Height", Type = "int", Min = "1", Max = "64", Command = "ogl_iH"})
+        setup.OnValueChanged = function(self, val) OGL_SendToServer_Slider("ogl_iH", val) end
 
         setup = OGPNL:AddControl(pnl, "Button"  , { Label = "Simulate Loading Screen" })
         setup.DoClick = function()
-            gui.OpenURL(ogl_svloading .. OGL_BuildLinkArgs() .. "simulate=true")
+            gui.OpenURL(ogl_svloading .. OGL_BuildLinkArgs() .. "s=1")
         end
         OGPNL:ControlHelp(pnl, "If you've activated the pop sound and want to hear it, click anywhere in the simulation.")
 
         --[[
-        setup = OGPNL:AddControl(pnl, "CheckBox", { Label = "Pop sound", Command = "ogl_debugFloating" })
-        setup.OnChange = function(self, bVal) OGL_SendToServer("ogl_debugFloating", bVal) end
-        setup:SetValue(GetConVar("ogl_debugFloating"):GetInt())
+        setup = OGPNL:AddControl(pnl, "CheckBox", { Label = "Pop sound", Command = "ogl_dF" })
+        setup.OnChange = function(self, bVal) OGL_SendToServer("ogl_dF", bVal) end
+        setup:SetValue(GetConVar("ogl_dF"):GetInt())
         ]]
 
         OGPNL:Help(pnl, "")

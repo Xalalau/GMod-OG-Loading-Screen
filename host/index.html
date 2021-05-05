@@ -36,8 +36,8 @@
 
                 // Get parameters from link
                 function S_GET(parameterName) {
-                    var result = null,
-                    tmp = [];
+                    var result = null;
+                    var tmp = [];
 
                     location.search.substr(1).split("&").forEach(function (item) {
                         tmp = item.split("=");
@@ -54,10 +54,13 @@
 
                 // Transform a tool link back to normal
                 function UnpackLink(link) {
-                    link = link.replaceAll("(47)", "/");
+                    // link.replaceAll() // Not supported
+                    //var regex_parser = new RegExp(/\(47\)/, "g"); // Not working with GMod
+                    //link = link.replace(regex_parser, "/");
+                    for (var i = 0; i <= 20; i++) // Better than nothing
+                        link = link.replace("(47)", "/");
                     link = link.replace("_1_", "http://");
                     link = link.replace("_2_", "https://");
-                    
                     return link;
                 }
 
@@ -65,56 +68,127 @@
                 // ------------
 
                 // Floating icons
-                var FLOATING_ICONS = S_GET("floating");
+                var FLOATING_ICONS = S_GET("f");
                 // Show extra informations
-                var DEBUG_FLOATING = S_GET("debugFloating");
+                var DEBUG_FLOATING = S_GET("dF");
 
                 // Icons Box:
                 // ------------
 
                 // Icons poping in a box
-                var ICONS_BOX = S_GET("box");
+                var ICONS_BOX = S_GET("b");
                 // Number of icons per line
-                var ROWS = Number(S_GET("boxIconsPerLine") || 0);
+                var ROWS = Number(S_GET("bR") || 0);
                 // Number of lines
-                var LINES = Number(S_GET("boxLines") || 0);
+                var LINES = Number(S_GET("bL") || 0);
                 // Plays audio when a download starts
-                var AUDIO = S_GET("boxAudio");
+                var AUDIO = S_GET("bA");
 
                 // Messages:
                 // ------------
 
                 // Number of messages that we can see bellow the GMod logo 
-                var MESSAGES = Number(S_GET("messages") || 0);
+                var MESSAGES = Number(S_GET("m") || 0);
                 // Random messages will appear after this time, but it allways goes back to 0 when a new download starts
-                var SECONDS_FOR_RANDOM_MESSAGES = Number(S_GET("randMsgSecs") || 1);
+                var SECONDS_FOR_RANDOM_MESSAGES = Number(S_GET("rMD") || 1);
 
                 // Background:
                 // ------------
 
                 // Dark mode
-                var DARK_MODE = S_GET("bkDark");
+                var DARK_MODE = S_GET("bkD");
                 // CSS background Properties
-                var BK_IMAGE = UnpackLink(String(S_GET("bkImage") || "#"));
-                var BK_POSITION = String(S_GET("bkPosition") || "");
-                BK_POSITION = BK_POSITION.replace("_", " ");
-                var BK_SIZE = String(S_GET("bkSize") || "");
-                var BK_REPEAT = String(S_GET("bkRepeat") || "");
-                var BK_COLOR_R = Number(S_GET("bkColorR") || 0);
-                var BK_COLOR_G = Number(S_GET("bkColorG") || 0);
-                var BK_COLOR_B = Number(S_GET("bkColorB") || 0);
+                var BK_IMAGE = UnpackLink(String(S_GET("bkI") || "#"));
+                var BK_POSITION = String(S_GET("bkP") || "");
+                var BK_SIZE = String(S_GET("bkS") || "");
+                var BK_REPEAT = String(S_GET("bkRe") || "");
+                var BK_COLOR_R = Number(S_GET("bkR") || 0);
+                var BK_COLOR_G = Number(S_GET("bkG") || 0);
+                var BK_COLOR_B = Number(S_GET("bkB") || 0);
+
+                if (BK_REPEAT != "") {
+                    switch(BK_REPEAT) {
+                        case "r":
+                            BK_REPEAT = "repeat";
+                            break;
+                        case "x":
+                            BK_REPEAT = "repeat-x";
+                            break;
+                        case "y":
+                            BK_REPEAT = "repeat-y";
+                            break;
+                        case "n":
+                            BK_REPEAT = "no-repeat";
+                            break;
+                        default:
+                            BK_REPEAT = "no-repeat";
+                            break;
+                    }
+                }
+
+                if (BK_SIZE != "") {
+                    switch(BK_SIZE) {
+                        case "a":
+                            BK_SIZE = "auto";
+                            break;
+                        case "cv":
+                            BK_SIZE = "cover";
+                            break;
+                        case "ct":
+                            BK_SIZE = "contain";
+                            break;
+                        default:
+                            BK_SIZE = "contain";
+                            break;
+                    }
+                }
+
+                if (BK_POSITION != "") {
+                    switch(BK_POSITION) {
+                        case "lt":
+                            BK_POSITION = "left top";
+                            break;
+                        case "lc":
+                            BK_POSITION = "left center";
+                            break;
+                        case "lb":
+                            BK_POSITION = "left bottom";
+                            break;
+                        case "rt":
+                            BK_POSITION = "right top";
+                            break;
+                        case "rc":
+                            BK_POSITION = "right center";
+                            break;
+                        case "rb":
+                            BK_POSITION = "right bottom";
+                            break;
+                        case "ct":
+                            BK_POSITION = "center top";
+                            break;
+                        case "cc":
+                            BK_POSITION = "center center";
+                            break;
+                        case "cb":
+                            BK_POSITION = "center bottom";
+                            break;
+                        default:
+                            BK_POSITION = "center center";
+                            break;
+                    }
+                }
 
                 // General:
                 // ------------
 
                 // Logo
-                var LOGO = UnpackLink(String(S_GET("logo") || "loading.png"));
+                var LOGO = UnpackLink(String(S_GET("l") || "loading.png"));
                 // Icons Width x Height
-                var ICONS_WIDTH = Number(S_GET("iconW") || 16);
-                var ICONS_HEIGHT = Number(S_GET("iconH") || 16);
+                var ICONS_WIDTH = Number(S_GET("iW") || 16);
+                var ICONS_HEIGHT = Number(S_GET("iH") || 16);
 
                 // Preview the loading screen
-                var SIMULATE = S_GET("simulate");
+                var SIMULATE = S_GET("s");
 
                 // _GET Section End
             //  ------------------------------------- //
@@ -149,7 +223,7 @@
                 "Delaying Half-Life 3",
                 "Changing Physgun Batteries",
                 "Breaking Source Engine"
-            ]
+            ];
             
             var iconFolder = "icons/";
 
@@ -222,7 +296,11 @@
             // ----------------------------------------------------------------------------------
             // Background -----------------------------------------------------------------------
 
-            document.body.style.background = "rgb(" + BK_COLOR_R + "," + BK_COLOR_G + "," + BK_COLOR_B + ") url('" + BK_IMAGE + "') " + BK_POSITION + "/" + BK_SIZE + " " + BK_REPEAT;
+            document.body.style.backgroundColor = "rgb(" + BK_COLOR_R + "," + BK_COLOR_G + "," + BK_COLOR_B + ")";
+            document.body.style.backgroundImage = url('" + BK_IMAGE + "');
+            document.body.style.backgroundPosition = BK_POSITION;
+            document.body.style.backgroundSize = BK_SIZE;
+            document.body.style.backgroundRepeat = BK_REPEAT;
 
             // ----------------------------------------------------------------------------------
             // Simulator ------------------------------------------------------------------------
@@ -261,7 +339,7 @@
                         var nextTime = 0.05 + Math.random() * 700;
 
                         if (changeExtTime < time) {
-                            extention = PickRandomProperty(ext)
+                            extention = PickRandomProperty(ext);
                             changeExtTime = nextTime + 1000 + Math.random() * 3000;
                         } else
                             changeExtTime = changeExtTime - time
@@ -402,7 +480,7 @@
                                 iconElement.remove();
                             }
                         }
-                    }, 0.1)
+                    }, 0.1);
                 }
 
                 if (DEBUG_FLOATING) {
@@ -420,12 +498,12 @@
 
                 var str = "";
                 var limit = Math.max(msg.length - MESSAGES, 0);
-                var baseColor = 'hsl(0, 0%,' + (DARK_MODE && 100 || 0) + '%)';
+                var baseColor = "hsl(0, 0%," + (DARK_MODE && 100 || 0) + "%)";
 
                 var j = 0;
                 for (var i = msg.length; i >= limit; i--) {
                     if ( ! msg[i]) continue;
-                    str = str + '<span style="color: ' + baseColor + '; opacity: '+ (1 - j/MESSAGES) + ';">' + msg[i] + '</span><br/>';
+                    str = str + "<span style='color: " + baseColor + "; opacity: " + (1 - j/MESSAGES) + "';>" + msg[i] + "</span><br/>";
                     j++;
                 }
 
@@ -443,7 +521,7 @@
                     }
 
                     ChangeText();
-                }, 1000)
+                }, 1000);
             }
 
             function RefreshFileBox(text) {

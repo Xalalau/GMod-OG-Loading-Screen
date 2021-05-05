@@ -5,8 +5,8 @@ local function SetLoadingScreen()
     local command = ogl_svloading .. OGL_BuildLinkArgs()
     local comSize = string.len(command)
 
-    if string.len(command) > 494 then
-        local warning = "WARNING! sv_loadingurl is too big! Max size is 494, yours is " .. comSize .. ". Shorten your image links." 
+    if string.len(command) > 260 then
+        local warning = "WARNING! sv_loadingurl is too big! Max size is 260, yours is " .. comSize .. ". Shorten your image links." 
         print(warning)
         PrintMessage(HUD_PRINTTALK, warning)
     else
@@ -27,7 +27,7 @@ net.Receive("OGL_UpdateCVar", function(_, ply)
         if timer.Exists("OGL_SetLoadingScreenWait") then
             timer.Destroy("OGL_SetLoadingScreenWait")
         end
-    
+
         timer.Create("OGL_SetLoadingScreenWait", 0.1, 1, function()
             SetLoadingScreen()
         end)
