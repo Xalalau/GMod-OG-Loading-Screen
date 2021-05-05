@@ -16,17 +16,19 @@ Changelog:
 
     - Add server name as title;
     - Add file counting and extra status as subtitle;
-    - Add support to more file types, including ".gma" (workshop downloads);
+    - Add support for more file types, including ".gma" (workshop downloads);
     - Add support for icons with Width x Height greater than 16x16;
-    - ChangeText(): finished + add support to control how often random messages appear;
-    - UpdateText(): add support to control the number of messages to display + better gradient effect;
-    - FileListing(): add "box" and "floating" icon modes, which can work together;
+    - Add support for background changes;
+    - Add support to control how often random messages appear;
+    - Add support to control the number of messages to display + better gradient effect;
+    - Add "box" and "floating" icon modes, which can work together;
+    - Add donwload simulator;
+    - Complete ChangeText();
     - Improve the random messages;
-    - Add debug and simulation functions;
-    - Expose the most important settings;
+    - Expose the most important settings via "_GET";
     - Host the screen for everyone to use;
     - Add a Workshop addon to be the interface.
-    
+
     Robotboy655:
 
     - Original code (https://web.archive.org/web/20160716010825/https://facepunch.com/showthread.php?t=1275062) (which was a draft)
