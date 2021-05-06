@@ -1,3 +1,11 @@
+--[[
+    I like how easy is to create a menu using these old GMod functions, but but even though this method is super practical it's condemned
+    and used only in Sandbox. To solve this, I'm gradually porting the game interfaces here and using them to build stuff regardless of the
+    gamemode. I don't even care that it's all in one file now.
+
+    - Xalalau Xubilozo
+]]
+
 -- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Interface ported from https://github.com/Facepunch/garrysmod/blob/be251723824643351cb88a969818425d1ddf42b3/garrysmod/lua/vgui/dform.lua
 -- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -226,6 +234,173 @@ function OGPNL:ListBox( pnl, strLabel )
 
 end
 
+-- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Interface ported from https://github.com/Facepunch/garrysmod/blob/be251723824643351cb88a969818425d1ddf42b3/garrysmod/gamemodes/sandbox/gamemode/spawnmenu/controls/ctrllistbox.lua
+-- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Copied to sopport non sandbox derived gamemodes
+
+local CtrlListBox = {}
+
+--AccessorFunc( CtrlListBox, "m_ConVarR", "ConVarR" )
+
+--[[---------------------------------------------------------
+	Name: Init
+-----------------------------------------------------------]]
+function CtrlListBox:Init()
+
+	self.ConVars = {}
+	self.Options = {}
+
+end
+
+--[[---------------------------------------------------------
+	Name: AddOption
+-----------------------------------------------------------]]
+function CtrlListBox:AddOption( strName, tabConVars )
+
+	self:AddChoice( strName, tabConVars )
+
+	for k, v in pairs( tabConVars ) do
+		self.ConVars[ k ] = 1
+	end
+
+end
+
+--[[---------------------------------------------------------
+	Name: OnSelect
+-----------------------------------------------------------]]
+function CtrlListBox:OnSelect( index, value, data )
+
+	for k, v in pairs( data ) do
+
+		RunConsoleCommand( k, tostring( v ) )
+
+	end
+
+end
+
+--[[---------------------------------------------------------
+	Name: Think
+-----------------------------------------------------------]]
+function CtrlListBox:Think( CheckConvarChanges )
+
+	self:CheckConVarChanges()
+
+end
+
+--[[---------------------------------------------------------
+	Name: ConVarsChanged
+-----------------------------------------------------------]]
+function CtrlListBox:ConVarsChanged()
+
+	for k, v in pairs( self.ConVars ) do
+
+		if ( self[ k ] == nil ) then return true end
+		if ( self[ k ] != GetConVarString( k ) ) then return true end
+
+	end
+
+	return false
+
+end
+
+--[[---------------------------------------------------------
+	Name: CheckForMatch
+-----------------------------------------------------------]]
+function CtrlListBox:CheckForMatch( cvars )
+
+	if ( table.IsEmpty( cvars ) ) then return false end
+
+	for k, v in pairs( cvars ) do
+
+		if ( tostring(v) != GetConVarString( k ) ) then
+			return false
+		end
+
+	end
+
+	return true
+
+end
+
+--[[---------------------------------------------------------
+	Name: CheckConVarChanges
+-----------------------------------------------------------]]
+function CtrlListBox:CheckConVarChanges()
+
+	if (!self:ConVarsChanged()) then return end
+
+	for k, v in pairs( self.ConVars ) do
+		self[ k ] = GetConVarString( k )
+	end
+
+	for k, v in pairs( self.Data ) do
+
+		if ( self:CheckForMatch( v ) ) then
+			self:SetText( self:GetOptionText(k) )
+			return
+		end
+
+	end
+
+end
+
+vgui.Register( "CtrlListBox2", CtrlListBox, "DComboBox" )
+
+-- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Interface ported from https://github.com/Facepunch/garrysmod/blob/be251723824643351cb88a969818425d1ddf42b3/garrysmod/gamemodes/sandbox/gamemode/spawnmenu/controls/ctrlcolor.lua
+-- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Copied to sopport non sandbox derived gamemodes
+
+local CtrlColor = {}
+
+function CtrlColor:Init()
+
+	self.Mixer = vgui.Create( "DColorMixer", self )
+	self.Mixer:Dock( FILL )
+
+	self:SetTall( 245 )
+
+end
+
+function CtrlColor:PerformLayout( x, y )
+
+	-- Magic number, the target width for self.Mixer
+	-- Number picked to that Palette would not have a gap, at button size 17
+	local targetWidth = 272
+
+	-- Don't scale the Mixer in width, keep it to the target width
+	local s = math.max( ( self:GetWide() - targetWidth ) / 2, 0 )
+	self.Mixer:DockMargin( s, 8, s, 0 )
+
+	-- Ugly hack, because of the docking system
+	self.OldMixerW = self.OldMixerW or self.Mixer:GetWide()
+
+	-- Number of panels in one row
+	local ColorRows = math.ceil( #self.Mixer.Palette:GetChildren() / 3 )
+
+	-- Set the button size closest to fill the Mixer width
+	local bSize = math.floor( self:GetWide() / ColorRows )
+	self.Mixer.Palette:SetButtonSize( math.min( bSize, 17 ) )
+
+end
+
+function CtrlColor:Paint()
+	-- Invisible background!
+end
+
+function CtrlColor:SetLabel( text ) self.Mixer:SetLabel( text ) end
+function CtrlColor:SetConVarR( cvar ) self.Mixer:SetConVarR( cvar ) end
+function CtrlColor:SetConVarG( cvar ) self.Mixer:SetConVarG( cvar ) end
+function CtrlColor:SetConVarB( cvar ) self.Mixer:SetConVarB( cvar ) end
+function CtrlColor:SetConVarA( cvar ) self.Mixer:SetConVarA( cvar ) end
+function CtrlColor:GetConVarR() return self.Mixer:GetConVarR() end
+function CtrlColor:GetConVarG() return self.Mixer:GetConVarG() end
+function CtrlColor:GetConVarB() return self.Mixer:GetConVarB() end
+function CtrlColor:GetConVarA() return self.Mixer:GetConVarA() end
+
+vgui.Register( "CtrlColor2", CtrlColor, "DPanel" )
+
 
 -- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Interface ported from https://github.com/Facepunch/garrysmod/blob/be251723824643351cb88a969818425d1ddf42b3/garrysmod/gamemodes/sandbox/gamemode/spawnmenu/controlpanel.lua
@@ -413,7 +588,7 @@ function OGPNL:AddControl( pnl, control, data )
 
     if ( control == "color" ) then
 
-        local ctrl = vgui.Create( "CtrlColor", pnl )
+        local ctrl = vgui.Create( "CtrlColor2", pnl )
         ctrl:SetLabel( data.label )
         ctrl:SetConVarR( data.red )
         ctrl:SetConVarG( data.green )
@@ -495,7 +670,7 @@ function OGPNL:AddControl( pnl, control, data )
 
         else
 
-            local ctrl = vgui.Create( "CtrlListBox", pnl )
+            local ctrl = vgui.Create( "CtrlListBox2", pnl )
 
             if ( data.options ) then
                 for k, v in pairs( data.options ) do
