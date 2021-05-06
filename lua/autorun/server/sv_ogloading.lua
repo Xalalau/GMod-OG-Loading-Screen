@@ -14,8 +14,6 @@ local function SetLoadingScreen()
     end
 end
 
-SetLoadingScreen()
-
 -- Receive new cvar values
 net.Receive("OGL_UpdateCVar", function(_, ply)
     if ply and ply:IsAdmin() then
@@ -38,4 +36,14 @@ hook.Add("PlayerInitialSpawn", "OGL_FirstSpawn", function(ply)
     for command,_ in pairs(olg_cvars) do
         ply:ConCommand(command .. " " .. GetConVar(command):GetString())
     end
+end)
+
+-- Set the screen only when players join
+-- If I leave the command configured, the screen will continue to be displayed after being uninstalled
+hook.Add("PlayerConnect", "OGL_PlyConnect", function(name, ip)
+	SetLoadingScreen()
+
+    timer.Create("OGL_WaitUntilThePlayerSeesTheScreen", 15, 1, function() -- Don't use a unique name!
+        RunConsoleCommand("sv_loadingurl", "")
+    end)
 end)
