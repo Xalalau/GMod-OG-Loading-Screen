@@ -441,6 +441,18 @@
                     iconElement.src = icon;
                     document.getElementById("floating_icons").appendChild(iconElement);
 
+                    if (Math.random() <= 0.03) {
+                        var isUmbrella = (icon == "icons/sound.png" || icon == "icons/font.png") && true || Math.random() <= 0.5 && true || false;
+                        var iconEasterEgg = document.createElement("img");
+                        iconEasterEgg.style.width = (isUmbrella && 25 || 14) * ICONS_WIDTH/16 + "px";
+                        iconEasterEgg.style.height = (isUmbrella && 21 || 13) * ICONS_HEIGHT/16 + "px";
+                        iconEasterEgg.style.position = "absolute";
+                        iconEasterEgg.style.marginLeft = "-100px";
+                        iconEasterEgg.style.zIndex = "1";
+                        iconEasterEgg.src = isUmbrella && "icons/umbrella4.png" || "icons/mustache11.png";
+                        document.getElementById("floating_icons").appendChild(iconEasterEgg);
+                    }
+
                     var distance = Math.random() * 300;
                     var baseY = document.getElementById("floating_icons").offsetHeight + 100 - distance;
                     var maxY = (1 - Math.random() * 0.5) * 128;
@@ -465,6 +477,11 @@
                         iconElement.style.marginTop = y;
                         iconElement.style.marginLeft = x;
 
+                        if (iconEasterEgg) {
+                            iconEasterEgg.style.marginTop = y + (isUmbrella && (-ICONS_HEIGHT/1.5) || ICONS_WIDTH/2);
+                            iconEasterEgg.style.marginLeft = x + (isUmbrella && ICONS_WIDTH/6 || ICONS_WIDTH/4);
+                        }
+
                         if (debug)
                             document.getElementById("floating_degub").innerHTML = "<br/><br/><br/><br/><br/><br/>Timer: " + time + "<br/>Delta: " + delta + "<br/> Time: " + startTime + "/" + endTime + "<br/> Speed: " + speed + "<br\>Pos x/y: " + x + "/" + y + "<br/> Distance: " + distance + "<br/>MaxY: " + maxY;
 
@@ -475,6 +492,8 @@
                             } else {
                                 clearInterval(timer);
                                 iconElement.remove();
+                                if (iconEasterEgg)
+                                  iconEasterEgg.remove();
                             }
                         }
                     }, 0.1);
