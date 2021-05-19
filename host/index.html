@@ -65,7 +65,7 @@
                 // ------------
 
                 // Floating icons
-                var FLOATING_ICONS = S_GET("f");
+                var FLOATING_ICONS = S_GET("f") || true;
                 // Show extra informations
                 var DEBUG_FLOATING = S_GET("dF");
 
@@ -75,9 +75,9 @@
                 // Icons poping in a box
                 var ICONS_BOX = S_GET("b");
                 // Number of icons per line
-                var ROWS = Number(S_GET("bR") || 0);
+                var ROWS = Number(S_GET("bR") || 60);
                 // Number of lines
-                var LINES = Number(S_GET("bL") || 0);
+                var LINES = Number(S_GET("bL") || 1);
                 // Plays audio when a download starts
                 var AUDIO = S_GET("bA");
 
@@ -85,9 +85,9 @@
                 // ------------
 
                 // Number of messages that we can see bellow the GMod logo 
-                var MESSAGES = Number(S_GET("m") || 0);
+                var MESSAGES = Number(S_GET("m") || 18);
                 // Random messages will appear after this time, but it allways goes back to 0 when a new download starts
-                var SECONDS_FOR_RANDOM_MESSAGES = Number(S_GET("rMD") || 1);
+                var SECONDS_FOR_RANDOM_MESSAGES = Number(S_GET("rMD") || 15);
 
                 // Background:
                 // ------------
@@ -99,9 +99,9 @@
                 var BK_POSITION = String(S_GET("bkP") || "");
                 var BK_SIZE = String(S_GET("bkS") || "");
                 var BK_REPEAT = String(S_GET("bkRe") || "");
-                var BK_COLOR_R = Number(S_GET("bkR") || 0);
-                var BK_COLOR_G = Number(S_GET("bkG") || 0);
-                var BK_COLOR_B = Number(S_GET("bkB") || 0);
+                var BK_COLOR_R = Number(S_GET("bkR") || 255);
+                var BK_COLOR_G = Number(S_GET("bkG") || 255);
+                var BK_COLOR_B = Number(S_GET("bkB") || 255);
 
                 if (BK_REPEAT != "") {
                     switch(BK_REPEAT) {
@@ -541,10 +541,12 @@
             }
 
             function RefreshFileBox(text) {
-                if (FilesNeeded == 0 || isNaN(FilesNeeded))
-                    FilesNeeded = "( ͡° ͜ʖ ͡°) 0";
+                if (! isNaN(FilesTotal)) {
+                    if (FilesNeeded == 0 || isNaN(FilesNeeded))
+                        FilesNeeded = "( ͡° ͜ʖ ͡°) 0";
 
-                document.getElementById("files").innerHTML = text || FilesNeeded + " files needed"; 
+                    document.getElementById("files").innerHTML = text || FilesNeeded + " files needed"; 
+                }
             }
 
             // ----------------------------------------------------------------------------------
