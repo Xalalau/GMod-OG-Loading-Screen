@@ -11,6 +11,14 @@ local function SetLoadingScreen()
         PrintMessage(HUD_PRINTTALK, warning)
     else
         RunConsoleCommand("sv_loadingurl", ogl_svloading .. OGL_BuildLinkArgs())
+
+        -- keep the command saved to a file so that we can access it from menu scope if we want to
+        if not file.Exists("ogl", "DATA") then file.CreateDir("ogl") end
+        local f = file.Open("ogl/sv_loadingurl.txt", "w", "DATA")
+        if f then
+            f:Write(ogl_svloading .. OGL_BuildLinkArgs())
+            f:Close()
+        end
     end
 end
 
