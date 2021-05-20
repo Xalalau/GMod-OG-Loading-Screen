@@ -8,7 +8,7 @@ This style was used during GMod 10 and all servers had it. At the time it wasn't
 
 I decided to distribute this code in the form of an addon to facilitate access as much as possible, so just add it to your collection/account and set the options through the game menu by typing the command ``ogl_menu`` in the console.
 
-[Workshop link](https://steamcommunity.com/sharedfiles/filedetails/?id=2471861417)
+For all information, visit the [Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=2471861417).
 
 Changelog:
 
@@ -23,6 +23,7 @@ Changelog:
     - Add support to control the number of messages to display + better gradient effect;
     - Add "box" and "floating" icon modes, which can work together;
     - Add donwload simulator;
+    - Add a way to use the screen by default (requires manual configuration);
     - Complete ChangeText();
     - Improve the random messages;
     - Expose the most important settings via "_GET";
