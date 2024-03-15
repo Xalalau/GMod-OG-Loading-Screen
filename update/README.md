@@ -57,7 +57,7 @@ If you don't want to create your own binary, I included mine in the "update/bin"
 1. Download SteamCMD from https://developer.valvesoftware.com/wiki/SteamCMD
 1. Open SteamCMD
 1. Login with ``login username password``
-1. Edit our ``update_ogl.vdf`` file with all the changes and correct directories
+1. Edit our ``update/files/update_ogl.vdf`` file with all the changes and correct directories
 1. Upload or update the addon with ``workshop_build_item update_ogl.vdf`` (change the path to update_ogl.vdf)
 1. Run ``quit``
 
