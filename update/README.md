@@ -2,8 +2,6 @@ To upload and update a loading screen addon, we actually need a custom GMad buil
 
 As it's a complicated process, I decided to write these instructions down. I hope to help other people to achieve the same result as mine.
 
-Enjoy!
-
 # Compile a custom GMad
 
 If you don't want to create your own binary, I included mine in the "update/bin" folder, so ignore this section entirely.
@@ -65,4 +63,9 @@ If you don't want to create your own binary, I included mine in the "update/bin"
 
 I'd recommend to host the screen on GitHub pages, but I actually don't know how it works or if they impose some random limits... So I simply keep my files from the 'host' folder in my Google Drive and serve them with DriveToWeb: https://www.drv.tw/. The website has been online for years now and I think it's one of the easiest ways to host a website.
 
-That's it!
+# Making your own changes
+
+You may want to modify the loading screen to do better tricks and have a nicer style, but beware!! The HTML/CSS/JS in it is weird and old for a reason!! As GMod uses a very old version of Awesomium, we also need to keep going with the OG web style. If you break the page with new JS features and fancy CSS, it's going to be a pain in the ass to debug it!! Do small changes, apply them and immediately test in-game. You've been warned.
+
+That's it! Enjoy your loading screen!
+- Xalalau
