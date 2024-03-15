@@ -1,8 +1,10 @@
-<html>
+<!DOCTYPE html>
+<html style='height: 100%;'>
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+        <link rel="icon" type="image/png" href="favicon.png">
     </head>
-    <body style='overflow: hidden;'>
+    <body style='overflow: hidden; height: 100%;'>
         <div style='text-align: center; top: 0px; left: 0px; right: 0px; height: 50px; overflow: show; font-family: Arial; font-size: 24px; font-weight: bold;' id='infos'>
         </div>
 
@@ -27,9 +29,12 @@
             </div>
         </div>
 
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/smoothness/jquery-ui.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+
         <iframe src="push.wav" allow="autoplay" id="audio" style="display: none"></iframe>
+
         <script type="text/javascript">
             //  ------------------------------------- //
                 // _GET Section Start
@@ -39,7 +44,7 @@
                     var result = null;
                     var tmp = [];
 
-                    location.search.substr(1).split("&").forEach(function (item) {
+                    location.search.substr(1).split(location.search.search("&amp;") > -1 ? "&amp;" : "&").forEach(function (item) {
                         tmp = item.split("=");
                         
                         if (tmp[0] === parameterName)
@@ -448,7 +453,7 @@
                         iconEasterEgg.style.height = (isUmbrella && 21 || 13) * ICONS_HEIGHT/16 + "px";
                         iconEasterEgg.style.position = "absolute";
                         iconEasterEgg.style.marginLeft = "-100px";
-                        iconEasterEgg.style.zIndex = "1";
+                        iconEasterEgg.style.zIndex = "2";
                         iconEasterEgg.src = isUmbrella && "icons/umbrella.png" || "icons/mustache.png";
                         document.getElementById("floating_icons").appendChild(iconEasterEgg);
                     }
@@ -474,12 +479,12 @@
                         var x = Lerp(delta, -62, document.getElementById("floating_icons").offsetWidth);
                         var y = baseY - maxY + Math.sin(x * 0.01) * maxY/2;
 
-                        iconElement.style.marginTop = y;
-                        iconElement.style.marginLeft = x;
+                        iconElement.style.marginTop = y + 'px';
+                        iconElement.style.marginLeft = x + 'px';
 
                         if (iconEasterEgg) {
-                            iconEasterEgg.style.marginTop = y + (isUmbrella && (-ICONS_HEIGHT/1.5) || ICONS_WIDTH/2);
-                            iconEasterEgg.style.marginLeft = x + (isUmbrella && ICONS_WIDTH/6 || ICONS_WIDTH/4);
+                            iconEasterEgg.style.marginTop = y + (isUmbrella && (-ICONS_HEIGHT/1.5) || ICONS_WIDTH/2) + 'px';
+                            iconEasterEgg.style.marginLeft = x + (isUmbrella && ICONS_WIDTH/6 || ICONS_WIDTH/4) + 'px';
                         }
 
                         if (debug)

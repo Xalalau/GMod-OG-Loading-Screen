@@ -37,8 +37,7 @@ function GetLoadPanel()
 
         if IsOGLMounted() then
             local f = file.Open("ogl/sv_loadingurl.txt", "r", "DATA")
-            if f then html = f:ReadLine() end
-            f:Close()
+            if f then html = f:ReadLine() f:Close() end
         end
 
         if not html then html = GetDefaultLoadingHTML() end
