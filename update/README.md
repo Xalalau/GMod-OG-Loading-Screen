@@ -61,4 +61,8 @@ If you don't want to create your own binary, I included mine in the "update/bin"
 1. Upload or update the addon with ``workshop_build_item update_ogl.vdf`` (change the path to update_ogl.vdf)
 1. Run ``quit``
 
+# Hosting the screen
+
+I'd recommend to host the screen on GitHub pages, but I actually don't know how it works or if they impose some random limits... So I simply keep my files from the 'host' folder in my Google Drive and serve them with DriveToWeb: https://www.drv.tw/. The website has been online for years now and I think it's one of the easiest ways to host a website.
+
 That's it!
