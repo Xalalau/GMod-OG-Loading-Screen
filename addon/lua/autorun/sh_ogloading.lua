@@ -1,4 +1,4 @@
-ogl_svloading = "https://3grng17dtqmxmsey95qy0w.on.drv.tw/og/"
+ogl_svloading = "http://ogloading.xalalau.com/"
 
 -- The name of the variables is compact to save the link size.
 olg_cvars = {
