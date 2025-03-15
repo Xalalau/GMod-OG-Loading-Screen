@@ -431,6 +431,8 @@
                 function SetFloatingIcon(filename, debug) {
                     var icon = "";
                     var extension = GetExtension(filename, 3);
+                    var width = ICONS_WIDTH * (debug && 1.3 || 1);
+                    var height = ICONS_HEIGHT * (debug && 1.3 || 1);
 
                     if (extension in ext)
                         icon = iconFolder + ext[extension];
@@ -438,8 +440,8 @@
                         icon = iconFolder + ext["generic"];
 
                     var iconElement = document.createElement("img");
-                    iconElement.style.width = ICONS_WIDTH + "px";
-                    iconElement.style.height = ICONS_HEIGHT + "px";
+                    iconElement.style.width = width + "px";
+                    iconElement.style.height = height + "px";
                     iconElement.style.position = "absolute";
                     iconElement.style.marginLeft = "-100px";
                     iconElement.style.zIndex = "1";
@@ -449,8 +451,8 @@
                     if (Math.random() <= 0.03) {
                         var isUmbrella = (icon == "icons/sound.png" || icon == "icons/font.png") && true || Math.random() <= 0.5 && true || false;
                         var iconEasterEgg = document.createElement("img");
-                        iconEasterEgg.style.width = (isUmbrella && 25 || 14) * ICONS_WIDTH/16 + "px";
-                        iconEasterEgg.style.height = (isUmbrella && 21 || 13) * ICONS_HEIGHT/16 + "px";
+                        iconEasterEgg.style.width = (isUmbrella && 25 || 14) * width/16 + "px";
+                        iconEasterEgg.style.height = (isUmbrella && 21 || 13) * height/16 + "px";
                         iconEasterEgg.style.position = "absolute";
                         iconEasterEgg.style.marginLeft = "-100px";
                         iconEasterEgg.style.zIndex = "2";
@@ -483,12 +485,12 @@
                         iconElement.style.marginLeft = x + 'px';
 
                         if (iconEasterEgg) {
-                            iconEasterEgg.style.marginTop = y + (isUmbrella && (-ICONS_HEIGHT/1.5) || ICONS_WIDTH/2) + 'px';
-                            iconEasterEgg.style.marginLeft = x + (isUmbrella && ICONS_WIDTH/6 || ICONS_WIDTH/4) + 'px';
+                            iconEasterEgg.style.marginTop = y + (isUmbrella && (-height/1.5) || width/2) + 'px';
+                            iconEasterEgg.style.marginLeft = x + (isUmbrella && width/6 || width/4) + 'px';
                         }
 
                         if (debug)
-                            document.getElementById("floating_degub").innerHTML = "<br/><br/><br/><br/><br/><br/>Timer: " + time + "<br/>Delta: " + delta + "<br/> Time: " + startTime + "/" + endTime + "<br/> Speed: " + speed + "<br\>Pos x/y: " + x + "/" + y + "<br/> Distance: " + distance + "<br/>MaxY: " + maxY;
+                            document.getElementById("floating_degub").innerHTML = "<br/><br/><br/><br/><br/><br/>Icon: <img src='" + icon + "'/><br/>Timer: " + time + "<br/>Delta: " + delta + "<br/> Time: " + startTime + "/" + endTime + "<br/> Speed: " + speed + "<br\>Pos x/y: " + x + "/" + y + "<br/> Distance: " + distance + "<br/>MaxY: " + maxY;
 
                         if (delta > 1.01) {
                             if (Downloading == filename) {

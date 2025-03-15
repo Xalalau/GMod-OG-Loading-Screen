@@ -254,11 +254,12 @@ local function BuildPanel(CPanel)
         end
         OGPNL:ControlHelp(pnl, "If you've activated the pop sound and want to hear it, click anywhere in the simulation.")
 
+        -- Help debugging the pop sound
         --[[
-        setup = OGPNL:AddControl(pnl, "CheckBox", { Label = "Pop sound", Command = "ogl_dF" })
+        setup = OGPNL:AddControl(pnl, "CheckBox", { Label = "Debug floating icons", Command = "ogl_dF" })
         setup.OnChange = function(self, bVal) OGL_SendToServer("ogl_dF", bVal) end
         setup:SetValue(GetConVar("ogl_dF"):GetInt())
-        ]]
+        --]]
 
         OGPNL:Help(pnl, "")
     else

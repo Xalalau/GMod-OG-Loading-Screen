@@ -20,7 +20,7 @@ olg_cvars = {
     ogl_l = "", -- logo
     ogl_iW = 16, -- Icon width
     ogl_iH = 16, -- Icon height
-    --ogl_dF = false -- Debug floating icons
+    ogl_dF = false -- Debug floating icons
 }
 
 for k,v in pairs(olg_cvars) do
