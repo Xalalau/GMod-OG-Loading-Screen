@@ -267,4 +267,4 @@ local function BuildPanel(CPanel)
     end
 end
 
-concommand.Add("ogl_menu", BuildPanel)
+concommand.Add("menu_ogl", BuildPanel)

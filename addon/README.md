@@ -6,7 +6,7 @@ My goal was to reproduce [this old GMod loading screen](https://steamcommunity.c
 
 This style was used during GMod 10 and all servers had it. At the time it wasn't possible to have different load screens.
 
-I decided to distribute this code in the form of an addon to facilitate access as much as possible, so just add it to your collection/account and set the options through the game menu by typing the command ``ogl_menu`` in the console.
+I decided to distribute this code in the form of an addon to facilitate access as much as possible, so just add it to your collection/account and set the options through the game menu by typing the command ``menu_ogl`` in the console.
 
 For all information, visit the [Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=2471861417).
 
