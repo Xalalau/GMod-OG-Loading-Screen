@@ -40,6 +40,32 @@ local function UnpackLink(packedLink)
     return link
 end
 
+local function TestScreen()
+    local frame = vgui.Create("DFrame")
+
+    local width = ScrW() * 0.95
+    local height = ScrH() * 0.95
+
+    frame:SetTitle("OG Simulation")
+    frame:SetSize(width, height)
+    frame:Center()
+    frame:MakePopup()
+    frame:SetDeleteOnClose(true)
+
+    local html = vgui.Create("DHTML", frame)
+
+    html:SetHTML([[
+        window.onerror = function(msg, url, lineNo, columnNo, error) {
+            console.log("Error: " + msg + " at line " + lineNo);
+            return false;
+        };
+    ]])
+
+    html:Dock(FILL)
+    html:OpenURL(ogl_svloading .. OGL_BuildLinkArgs() .. "s=1")
+    --html:OpenURL("asset://garrysmod/html/host/index.html" .. OGL_BuildLinkArgs() .. "s=1")
+end
+
 -- Build menu
 local window
 local function BuildPanel(CPanel)
@@ -224,7 +250,7 @@ local function BuildPanel(CPanel)
 
         setup = OGPNL:AddControl(pnl, "Button"  , { Label = "Simulate Loading Screen" })
         setup.DoClick = function()
-            gui.OpenURL(ogl_svloading .. OGL_BuildLinkArgs() .. "s=1")
+            TestScreen()
         end
         OGPNL:ControlHelp(pnl, "If you've activated the pop sound and want to hear it, click anywhere in the simulation.")
 
