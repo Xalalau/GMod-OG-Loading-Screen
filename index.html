@@ -51,6 +51,10 @@
                             result = decodeURIComponent(tmp[1]);
                     });
 
+                    if (result && (result.toLowerCase() == "false" || result.toLowerCase() == "true")) {
+                        result = result.toLowerCase() == "true"
+                    }
+
                     return result;
                 }
 
