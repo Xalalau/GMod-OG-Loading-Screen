@@ -1,3 +1,6 @@
+> [!WARNING]
+> This is no longer needed! I included all the loading screen files in the earlier versions of OGL, but they were somewhat unnecessary, so I’ve switched to using webhost configurations. I’m keeping these gmad files here for reference, as they provide a tutorial on how to modify and compile them.
+
 To upload and update a loading screen addon, we actually need a custom GMad build with a wider files whitelist and SteamCMD to workaround gmpublish restrictions.
 
 As it's a complicated process, I decided to write these instructions down. I hope to help other people to achieve the same result as mine.
