@@ -496,9 +496,9 @@
                                 endTime = startTime + speed * 0.5;
                             } else {
                                 clearInterval(timer);
-                                iconElement.remove();
+                                iconElement.parentNode.removeChild(iconElement);
                                 if (iconEasterEgg)
-                                  iconEasterEgg.remove();
+                                  iconEasterEgg.parentNode.removeChild(iconEasterEgg);
                             }
                         }
                     }, 0.1);
