@@ -12,7 +12,7 @@ local function OGL_SendToServer_Slider(command, value)
 end
 
 -- Check admin
-local function checkAdmin()
+local function CheckAdmin()
     local ply = LocalPlayer()
 
     if ply:IsValid() then
@@ -24,7 +24,7 @@ local function checkAdmin()
     return false
 end
 
-local function packLink(link)
+local function PackLink(link)
     link = string.Replace(link, "http://", "_1_")
     link = string.Replace(link, "https://", "_2_")
     link = string.Replace(link, "/", "(47)")
@@ -32,7 +32,7 @@ local function packLink(link)
     return link
 end
 
-local function unpackLink(packedLink)
+local function UnpackLink(packedLink)
     local link
     link = string.Replace(packedLink, "_1_", "http://")
     link = string.Replace(link, "_2_", "https://")
@@ -43,7 +43,7 @@ end
 -- Build menu
 local window
 local function BuildPanel(CPanel)
-    if not checkAdmin() then
+    if not CheckAdmin() then
         print("Admin only.")
 
         return
@@ -134,9 +134,9 @@ local function BuildPanel(CPanel)
 
         setup = OGPNL:AddControl(pnl, "TextBox"  , { Label = "Background URL" })
         setup:SetUpdateOnType(true)
-        setup:SetText(unpackLink(GetConVar("ogl_bkI"):GetString()))
+        setup:SetText(UnpackLink(GetConVar("ogl_bkI"):GetString()))
         setup.OnValueChange = function(self, val)
-            val = packLink(val)
+            val = PackLink(val)
             RunConsoleCommand("ogl_bkI", val)
             OGL_SendToServer("ogl_bkI", val)
         end
@@ -208,9 +208,9 @@ local function BuildPanel(CPanel)
 
         setup = OGPNL:AddControl(pnl, "TextBox", { Label = "Logo URL" })
         setup:SetUpdateOnType(true)
-        setup:SetText(unpackLink(GetConVar("ogl_l"):GetString()))
+        setup:SetText(UnpackLink(GetConVar("ogl_l"):GetString()))
         setup.OnValueChange = function(self, val)
-            val = packLink(val)
+            val = PackLink(val)
             RunConsoleCommand("ogl_l", val)
             OGL_SendToServer("ogl_l", val)
         end
